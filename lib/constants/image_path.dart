@@ -7,4 +7,5 @@ class ImagePath {
   static String backArrow = 'assets/images/Icon-arrow-left.png';
   static String passwordEye = 'assets/images/password_eye_icon.png';
   static String passwordFrame = 'assets/images/secure_your_password_frame.png';
+  static String trueWalletLogo = 'assets/images/true_wallet_logo.png';
 }

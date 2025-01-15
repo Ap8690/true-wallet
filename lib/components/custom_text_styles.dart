@@ -26,7 +26,7 @@ class CustomTextStyles {
 
   static TextStyle textHeading({
     Color color = CustomColor.grey,
-    FontWeight fontWeight = FontWeight.w400,
+    FontWeight fontWeight = FontWeight.normal,
   }) {
     return TextStyle(
       fontSize: 18,
@@ -37,7 +37,7 @@ class CustomTextStyles {
 
   static TextStyle textSubHeading({
     Color color = CustomColor.black,
-    FontWeight fontWeight = FontWeight.w400,
+    FontWeight fontWeight = FontWeight.normal,
   }) {
     return TextStyle(
       fontSize: 16,
@@ -48,7 +48,7 @@ class CustomTextStyles {
 
   static TextStyle textCommon({
     Color color = CustomColor.black,
-    FontWeight fontWeight = FontWeight.w400,
+    FontWeight fontWeight = FontWeight.normal,
   }) {
     return TextStyle(
       fontSize: 14,
@@ -70,7 +70,7 @@ class CustomTextStyles {
 
   static TextStyle textSubLabel({
     Color color = CustomColor.black,
-    FontWeight fontWeight = FontWeight.w400,
+    FontWeight fontWeight = FontWeight.normal,
   }) {
     return TextStyle(
       fontSize: 10,

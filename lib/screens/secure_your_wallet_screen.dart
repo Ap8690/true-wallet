@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_text.dart';
+import 'package:flutter_application_1/screens/confirm_recovery_phrase_screen.dart';
 
 import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
@@ -147,7 +148,11 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                     child: Center(
                       child: CustomButton(
                         text: 'Continue',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  const ConfirmRecoveryPhraseScreen()));
+                        },
                         isGradient: true,
                         borderRadius: 24.0,
                         padding: const EdgeInsets.symmetric(

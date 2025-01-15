@@ -8,7 +8,6 @@ import 'package:flutter_application_1/screens/secure_your_wallet_screen.dart';
 
 import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
-import 'create_password_screen.dart';
 
 class PasswordWarningScreen extends StatefulWidget {
   const PasswordWarningScreen({super.key});
@@ -79,7 +78,7 @@ class _PasswordWarningScreenState extends State<PasswordWarningScreen> {
                               color: CustomColor.grey,
                               fontWeight: FontWeight.normal),
                           children: [
-                            TextSpan(
+                            const TextSpan(
                                 text:
                                     'Dont risk losing your funds. Protect your wallet by saving your '),
                             TextSpan(
