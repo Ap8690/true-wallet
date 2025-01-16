@@ -4,6 +4,7 @@ import 'package:flutter_application_1/constants/image_path.dart';
 import '../constants/custom_color.dart';
 import 'custom_gradient_text.dart';
 
+//check
 class SendReceiveBottomsheet {
   static show(
     BuildContext context,
@@ -20,7 +21,7 @@ class SendReceiveBottomsheet {
             return Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(16),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

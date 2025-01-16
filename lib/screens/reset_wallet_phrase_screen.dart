@@ -81,121 +81,126 @@ class _ResetWalletPhraseScreenState extends State<ResetWalletPhraseScreen> {
           )),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Center(
-                child: CustomGradientText(
-              textAlign: TextAlign.center,
-              text: 'Import From Secret Recovery Phrase',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            )),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomText(
-              text: 'Secret Recovery Phrase',
-              style: CustomTextStyles.textCommon(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 2.5 / 7,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 6,
-                  childAspectRatio: 3.5,
-                ),
-                itemCount: recoveryPhrases.length,
-                itemBuilder: (context, index) {
-                  return CustomButton(
-                    text: '${index + 1}. ${recoveryPhrases[index]}',
-                    onPressed: () {},
-                    isGradient: false,
-                    backgroundColor: CustomColor.offWhite,
-                    borderRadius: 24.0,
-                    borderColor: CustomColor.green,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 5),
-                    textStyle:
-                        const TextStyle(color: CustomColor.black, fontSize: 16),
-                  );
-                },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                  child: CustomGradientText(
+                textAlign: TextAlign.center,
+                text: 'Import From Secret Recovery Phrase',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              )),
+              const SizedBox(
+                height: 16,
               ),
-            ),
-            CustomText(
-              text: 'Password',
-              style: CustomTextStyles.textSubHeading(
-                  color: CustomColor.grey, fontWeight: FontWeight.normal),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              controller: _passwordController,
-              isFullSize: true,
-              isPassword: true,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomText(
-              text: 'Confirm Password',
-              style: CustomTextStyles.textSubHeading(
-                  color: CustomColor.grey, fontWeight: FontWeight.normal),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              controller: _confirmPasswordController,
-              isFullSize: true,
-              isPassword: true,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                  text: 'UnLock with Fingerprint ?',
-                  style: CustomTextStyles.textCommon(
-                      color: CustomColor.black, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Switch(
-                  value: isSwitched,
-                  onChanged: toggleSwitch,
-                  activeTrackColor: CustomColor.green,
-                  activeColor: CustomColor.white,
-                  inactiveThumbColor: CustomColor.grey,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: CustomButton(
-                text: 'Continue',
-                isGradient: true,
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HomeContentScreen()));
-                },
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                textStyle:
-                    CustomTextStyles.textSubHeading(color: CustomColor.white),
+              CustomText(
+                text: 'Secret Recovery Phrase',
+                style: CustomTextStyles.textCommon(),
               ),
-            )
-          ],
+              const SizedBox(
+                height: 6,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 2.3 / 7,
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 6,
+                    childAspectRatio: 3.9,
+                  ),
+                  itemCount: recoveryPhrases.length,
+                  itemBuilder: (context, index) {
+                    return CustomButton(
+                      text: '${index + 1}. ${recoveryPhrases[index]}',
+                      onPressed: () {},
+                      isGradient: false,
+                      backgroundColor: CustomColor.offWhite,
+                      borderRadius: 24.0,
+                      borderColor: CustomColor.green,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 5),
+                      textStyle: const TextStyle(
+                          color: CustomColor.black, fontSize: 16),
+                    );
+                  },
+                ),
+              ),
+              CustomText(
+                text: 'Password',
+                style: CustomTextStyles.textSubHeading(
+                    color: CustomColor.grey, fontWeight: FontWeight.normal),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              CustomTextField(
+                controller: _passwordController,
+                isFullSize: true,
+                isPassword: true,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              CustomText(
+                text: 'Confirm Password',
+                style: CustomTextStyles.textSubHeading(
+                    color: CustomColor.grey, fontWeight: FontWeight.normal),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              CustomTextField(
+                controller: _confirmPasswordController,
+                isFullSize: true,
+                isPassword: true,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    text: 'UnLock with Fingerprint ?',
+                    style: CustomTextStyles.textCommon(
+                        color: CustomColor.black, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Switch(
+                    value: isSwitched,
+                    onChanged: toggleSwitch,
+                    activeTrackColor: CustomColor.green,
+                    activeColor: CustomColor.white,
+                    inactiveThumbColor: CustomColor.grey,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Center(
+                child: CustomButton(
+                  text: 'Continue',
+                  isGradient: true,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => HomeContentScreen()));
+                  },
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 60, vertical: 6),
+                  textStyle:
+                      CustomTextStyles.textSubHeading(color: CustomColor.white),
+                ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+            ],
+          ),
         ),
       ),
     );

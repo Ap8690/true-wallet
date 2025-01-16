@@ -19,14 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
+          preferredSize: const Size.fromHeight(80),
           child: CustomHomeAppbar(
             showBackWidget: true,
             showTrailingWidget: true,
             onTrailingTap: () {},
           )),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: CustomTextStyles.textSubTitle(),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     CustomText(
                       text: '+\$5 (+3.14%)',
@@ -174,17 +174,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 14,
             ),
             Container(
-              height: 120,
+              height: 180,
               child: ListView.builder(itemBuilder: (context, index) {
                 return _buildTransactionCard(ImagePath.copyIcon, 'Fit24',
                     '1.43', '56.37', '12', 'Fit24');
               }),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Center(
               child: CustomButton(
@@ -196,14 +196,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             CustomText(
               text: 'Actions',
               style: CustomTextStyles.textSubTitle(color: CustomColor.black),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,8 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {},
                       child: Image.asset(
                         ImagePath.receiveImage,
-                        height: 120,
-                        width: 100,
+                        height: 100,
+                        width: 80,
                       ),
                     ),
                     const SizedBox(
@@ -225,8 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {},
                       child: Image.asset(
                         ImagePath.sendImage,
-                        height: 120,
-                        width: 100,
+                        height: 100,
+                        width: 80,
                       ),
                     )
                   ],
