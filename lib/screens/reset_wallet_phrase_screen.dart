@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_gradient_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
-
+import 'package:flutter_application_1/screens/home_screen.dart';
+import '../app.dart';
 import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
 import '../components/custom_text.dart';
@@ -184,7 +185,10 @@ class _ResetWalletPhraseScreenState extends State<ResetWalletPhraseScreen> {
               child: CustomButton(
                 text: 'Continue',
                 isGradient: true,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => HomeContentScreen()));
+                },
                 padding:
                     const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
                 textStyle:

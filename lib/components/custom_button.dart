@@ -12,19 +12,21 @@ class CustomButton extends StatelessWidget {
   final double borderRadius;
   final TextStyle? textStyle;
   final Color? borderColor;
+  final double? width;
 
-  const CustomButton({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-    this.isGradient = false,
-    this.gradientColors = const [CustomColor.green, CustomColor.blue],
-    this.backgroundColor = Colors.grey,
-    this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-    this.borderRadius = 24.0,
-    this.textStyle = const TextStyle(color: Colors.white, fontSize: 15),
-    this.borderColor,
-  }) : super(key: key);
+  const CustomButton(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      this.isGradient = false,
+      this.gradientColors = const [CustomColor.green, CustomColor.blue],
+      this.backgroundColor = Colors.grey,
+      this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      this.borderRadius = 24.0,
+      this.textStyle = const TextStyle(color: Colors.white, fontSize: 15),
+      this.borderColor,
+      this.width})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
