@@ -6,7 +6,7 @@ import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
 import '../components/custom_gradient_text.dart';
 import '../components/custom_text_styles.dart';
-import '../constants/custom_color.dart'; // Assuming this is the correct path
+import '../constants/custom_color.dart';
 
 class SecureYourWalletScreen extends StatefulWidget {
   const SecureYourWalletScreen({super.key});
@@ -83,7 +83,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
               height: 30,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 3 / 7,
+              height: MediaQuery.of(context).size.height * 2.8 / 7,
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -101,7 +101,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                     borderRadius: 24.0,
                     borderColor: CustomColor.green,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 8),
+                        horizontal: 10.0, vertical: 6),
                     textStyle:
                         const TextStyle(color: CustomColor.black, fontSize: 16),
                   );
@@ -112,7 +112,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
               height: 5,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 1.5 / 5,
+              height: MediaQuery.of(context).size.height * 1.4 / 5,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -130,7 +130,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 32.0, vertical: 20),
+                        horizontal: 32.0, vertical: 10),
                     child: CustomText(
                       textAlign: TextAlign.left,
                       text:
@@ -139,9 +139,6 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                           fontWeight: FontWeight.normal,
                           color: CustomColor.grey),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -156,14 +153,11 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                         isGradient: true,
                         borderRadius: 24.0,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 10.0),
+                            horizontal: 50, vertical: 6.0),
                         textStyle:
                             const TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
                   ),
                 ],
               ),

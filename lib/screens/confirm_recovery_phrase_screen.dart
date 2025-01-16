@@ -86,13 +86,13 @@ class _ConfirmRecoveryPhraseScreenState
               height: 20,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 2.6 / 7,
+              height: MediaQuery.of(context).size.height * 2.3 / 7,
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 6,
-                  childAspectRatio: 3.5,
+                  childAspectRatio: 3.9,
                 ),
                 itemCount: recoveryPhrases.length,
                 itemBuilder: (context, index) {
@@ -104,7 +104,7 @@ class _ConfirmRecoveryPhraseScreenState
                     borderRadius: 24.0,
                     borderColor: CustomColor.green,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 5),
+                        horizontal: 10.0, vertical: 4),
                     textStyle:
                         const TextStyle(color: CustomColor.black, fontSize: 16),
                   );
@@ -115,7 +115,7 @@ class _ConfirmRecoveryPhraseScreenState
               height: 5,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 1.5 / 5,
+              height: MediaQuery.of(context).size.height * 1.6 / 5,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -135,7 +135,7 @@ class _ConfirmRecoveryPhraseScreenState
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32.0, vertical: 10),
+                          horizontal: 32.0, vertical: 8),
                       child: CustomText(
                         textAlign: TextAlign.center,
                         text:
@@ -151,8 +151,8 @@ class _ConfirmRecoveryPhraseScreenState
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 10,
-                          mainAxisSpacing: 6,
-                          childAspectRatio: 3.7,
+                          mainAxisSpacing: 5,
+                          childAspectRatio: 3.8,
                         ),
                         itemCount: recoveryPhrases.length,
                         itemBuilder: (context, index) {
@@ -181,7 +181,7 @@ class _ConfirmRecoveryPhraseScreenState
                             borderRadius: 24.0,
                             borderColor: CustomColor.green,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 6),
+                                horizontal: 8.0, vertical: 3),
                             textStyle: const TextStyle(
                                 color: CustomColor.black, fontSize: 14),
                           );
@@ -206,7 +206,7 @@ class _ConfirmRecoveryPhraseScreenState
                           isGradient: selectedCount == 12 ? true : false,
                           borderRadius: 24.0,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 10.0),
+                              horizontal: 50, vertical: 7.0),
                           textStyle: const TextStyle(
                               color: Colors.white, fontSize: 18),
                         ),

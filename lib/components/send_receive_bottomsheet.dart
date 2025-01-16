@@ -20,7 +20,7 @@ class SendReceiveBottomsheet {
             return Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(16),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
