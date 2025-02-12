@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_appbar.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
+import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 import 'package:flutter_application_1/screens/create_password_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../components/custom_button.dart';
 import '../components/custom_gradient_text.dart';
@@ -17,6 +19,13 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  late WalletBloc walletBloc;
+  bool newWalletButtonPressed = false;
+  @override
+  void initState() {
+    walletBloc = BlocProvider.of<WalletBloc>(context);
+    super.initState();
+  }
 
   final List<String> _images = [
     ImagePath.onboardingOne,
@@ -227,11 +236,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                               Expanded(
                                                 child: CustomButton(
                                                   text: 'Create New Wallet',
-                                                  onPressed: () => Navigator.of(
+                                                  onPressed: () async => {
+                                                    walletBloc.add(CreateWallet()),
+                                                    Navigator.of(
                                                           context)
                                                       .push(MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const CreatePasswordScreen())),
+                                                              const CreatePasswordScreen()))
+                                                  },
                                                   isGradient: true,
                                                   padding: const EdgeInsets
                                                       .symmetric(
