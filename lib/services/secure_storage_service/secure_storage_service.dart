@@ -10,7 +10,7 @@ class SecureStorageService {
     return base64.encode(utf8.encode("0${string * 5}0"));
   }
 
-  Future<void> savePin(String pin) async {
+  Future<void> savePassword(String pin) async {
     final key0 = encrypt.Key.fromBase64(generateEncryptionKey(pin));
     final encrypter = encrypt.Encrypter(encrypt.AES(key0));
     final encryptedData = encrypter.encrypt(pin, iv: _generateIV(pin));
@@ -18,7 +18,7 @@ class SecureStorageService {
     _pin = pin;
   }
 
-  Future<bool> verifyPin(String pin) async {
+  Future<bool> verifyPassword(String pin) async {
     final key0 = encrypt.Key.fromBase64(generateEncryptionKey(pin));
     final encryptedData = await _storage.read(key: "pin");
     try {

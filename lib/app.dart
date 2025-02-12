@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/send_receive_bottomsheet.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/onboarding_screen.dart';
 import 'package:flutter_application_1/screens/setting_screen.dart';
 import 'package:flutter_application_1/screens/transaction_history_screen.dart';
+import 'package:flutter_application_1/services/sharedpref/preference_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'screens/app_bottom_navigation_bar.dart';
 import 'screens/home_screen.dart';
@@ -13,6 +16,9 @@ import "utils/injection_container.dart" as di;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static GetIt getIt = GetIt.I;
+  static PreferenceService preferenceService = getIt<PreferenceService>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               colorScheme:
                   const ColorScheme.light(onPrimary: CustomColor.white)),
-          home: OnboardingScreen(),
+          home: preferenceService.isLoggedIn ? const LoginScreen() :  OnboardingScreen() ,
         ));
   }
 }

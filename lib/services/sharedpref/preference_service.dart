@@ -95,21 +95,21 @@ class PreferenceService {
   String? get refreshToken =>
       _sharedPreference.getString(Preferences.refreshToken);
 
-  Future<void> saveIsMpinSet(bool isMpinSet) async =>
-      await _sharedPreference.setBool(Preferences.isMpinSet, isMpinSet);
+  Future<void> saveIsPasswordSet(bool isPasswordSet) async =>
+      await _sharedPreference.setBool(Preferences.isPasswordSet, isPasswordSet);
 
-  bool get isMpinSet =>
-      _sharedPreference.getBool(Preferences.isMpinSet) ?? false;
+  bool get isPasswordSet =>
+      _sharedPreference.getBool(Preferences.isPasswordSet) ?? false;
 
   Future<void> setIsBioEnabled(bool isBioEnabled) =>
       _sharedPreference.setBool(Preferences.isBioEnabled, isBioEnabled);
 
   bool? get isBioEnabled => _sharedPreference.getBool(Preferences.isBioEnabled);
 
-  Future<void> saveMpin(String mpin) =>
-      _sharedPreference.setString(Preferences.mpin, mpin);
+  Future<void> savePassword(String password) =>
+      _sharedPreference.setString(Preferences.password, password);
 
-  String? get mpin => _sharedPreference.getString(Preferences.mpin);
+  String? get password => _sharedPreference.getString(Preferences.password);
 
   Future<bool> removeAccessToken() async =>
       _sharedPreference.remove(Preferences.accessToken);

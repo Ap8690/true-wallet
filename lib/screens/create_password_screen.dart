@@ -5,6 +5,8 @@ import 'package:flutter_application_1/components/custom_gradient_text.dart';
 import 'package:flutter_application_1/components/custom_text_field.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/screens/password_warning_screen.dart';
+import 'package:flutter_application_1/services/secure_storage_service/secure_storage_service.dart';
+import 'package:get_it/get_it.dart';
 
 import '../components/custom_text.dart';
 import '../constants/custom_color.dart';
@@ -19,8 +21,16 @@ class CreatePasswordScreen extends StatefulWidget {
 class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
+  final getIt = GetIt.I;
+  late SecureStorageService secureStorageService;
   bool isSwitched = false;
   bool isChecked = false;
+
+  @override
+  void initState() {
+    secureStorageService = getIt<SecureStorageService>();
+    super.initState();
+  }
 
   void toggleSwitch(bool value) {
     setState(() {
@@ -36,6 +46,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   }
 
   void onButtonPressed() {
+    secureStorageService.savePassword(_passwordController.text);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => PasswordWarningScreen()));
   }
