@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
+import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_application_1/screens/dapp_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../components/custom_text.dart';
 import '../components/custom_text_styles.dart';
@@ -15,6 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late WalletBloc walletBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    walletBloc = BlocProvider.of(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,9 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Row(
                               children: [
-                                const Text(
-                                  'user address',
-                                  style: TextStyle(
+                                Text(
+                                  walletBloc.selectedAccount!.address,
+                                  style: const TextStyle(
                                     fontSize: 8,
                                   ),
                                 ),
@@ -150,24 +161,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(color: CustomColor.blue, width: 1)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      children: [
-                        CustomText(
-                          text: 'Portfolio',
-                          style: CustomTextStyles.textLabel(
-                              color: CustomColor.blue),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Image.asset(
-                          ImagePath.navigatorIcon,
-                          height: 10,
-                          width: 10,
-                        )
-                      ],
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DappView(
+                                  initialDappUrl:
+                                      "https://pancakeswap.finance/",
+                                  name: "Pancake Swap",
+                                ))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Portfolio',
+                            style: CustomTextStyles.textLabel(
+                                color: CustomColor.blue),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Image.asset(
+                            ImagePath.navigatorIcon,
+                            height: 10,
+                            width: 10,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 )
@@ -176,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 14,
             ),
-            Container(
+            SizedBox(
               height: 180,
               child: ListView.builder(itemBuilder: (context, index) {
                 return _buildTransactionCard(ImagePath.copyIcon, 'Fit24',
@@ -265,14 +286,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                       height: 33,
                       width: 33,
                       child: Image.asset(
                         imagePath,
                         fit: BoxFit.fill,
                       )),
-                  Container(
+                  SizedBox(
                     width: 80,
                     child: Column(
                       children: [

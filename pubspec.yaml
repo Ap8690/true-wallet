@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.20.2
   mime: ^2.0.0
   http_parser: ^4.1.2
+  flutter_web3_webview: ^0.1.2
 
 dev_dependencies:
   flutter_test:

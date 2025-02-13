@@ -84,7 +84,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.5,
-                            child: Image.network(
+                            child: Image.asset(
                               _images[index],
                               fit: BoxFit.contain,
                             ),

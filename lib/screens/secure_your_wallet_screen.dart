@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_text.dart';
+import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 import 'package:flutter_application_1/screens/confirm_recovery_phrase_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
@@ -16,44 +18,19 @@ class SecureYourWalletScreen extends StatefulWidget {
 }
 
 class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
+  late WalletBloc walletBloc;
   List<String> recoveryPhrases = [];
 
   @override
   void initState() {
     super.initState();
+    walletBloc = BlocProvider.of(context);
     recoveryPhrases = generateRecoveryPhrases();
   }
 
   List<String> generateRecoveryPhrases() {
-    final List<String> phrases = [
-      'Orphan',
-      'Fetch',
-      'Mail',
-      'Plunge',
-      'Shiver',
-      'Hammer',
-      'System',
-      'Symbol',
-      'Senior',
-      'Vast',
-      'North',
-      'Huge',
-      'Garden',
-      'Artist',
-      'Market',
-      'Dancer',
-      'Basket',
-      'Night',
-      'Island',
-      'Ocean',
-      'Forest',
-      'Mountain',
-      'River',
-      'Valley',
-    ];
-
-    phrases.shuffle();
-    return phrases.take(12).toList();
+    List<String> phrases = walletBloc.wallet!.seedPhrase.split(" ");
+    return phrases;
   }
 
   @override
@@ -67,7 +44,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
             showBackWidget: true,
             onBackArrowTap: () => Navigator.of(context).pop(),
             showProgressBars: true,
-            progressStatuses: [true, true, false],
+            progressStatuses: const [true, true, false],
           )),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -82,7 +59,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
             const SizedBox(
               height: 30,
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 2.8 / 7,
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -112,7 +89,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
               height: 5,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 1.4 / 5,
+              height: MediaQuery.of(context).size.height * 1.4 / 6,
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -120,7 +97,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
                 borderRadius: BorderRadius.circular(12),
@@ -135,7 +112,7 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                       textAlign: TextAlign.left,
                       text:
                           'This is your Secret Recovery Phrase. Write it down on paper and keep it in a safe place. You\'ll be asked to re-enter this phrase (in order) on the next step.',
-                      style: CustomTextStyles.textHeading(
+                      style: CustomTextStyles.textCommon(
                           fontWeight: FontWeight.normal,
                           color: CustomColor.grey),
                     ),
@@ -147,8 +124,9 @@ class _SecureYourWalletScreenState extends State<SecureYourWalletScreen> {
                         text: 'Continue',
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const ConfirmRecoveryPhraseScreen()));
+                              builder: (context) => ConfirmRecoveryPhraseScreen(
+                                    seedPhrase: recoveryPhrases,
+                                  )));
                         },
                         isGradient: true,
                         borderRadius: 24.0,

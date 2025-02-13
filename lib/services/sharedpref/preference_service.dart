@@ -95,7 +95,7 @@ class PreferenceService {
   String? get refreshToken =>
       _sharedPreference.getString(Preferences.refreshToken);
 
-  Future<void> saveIsPasswordSet(bool isPasswordSet) async =>
+  Future<void> saveIsMpinSet(bool isPasswordSet) async =>
       await _sharedPreference.setBool(Preferences.isPasswordSet, isPasswordSet);
 
   bool get isPasswordSet =>
