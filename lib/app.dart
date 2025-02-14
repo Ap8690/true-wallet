@@ -3,6 +3,7 @@ import 'package:flutter_application_1/components/send_receive_bottomsheet.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/presentation/auth/bloc/auth_bloc.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_application_1/screens/explore_website_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/onboarding_screen.dart';
 import 'package:flutter_application_1/screens/transfer_screen.dart';
@@ -73,7 +74,7 @@ class _HomeContentScreenState extends State<HomeContentScreen>
           _selectedIndex == 0 ? const HomeScreen() : Container(),
           _selectedIndex == 1 ? const TransactionHistory() : Container(),
           _selectedIndex == 2 ? const TransferScreen() : Container(),
-          _selectedIndex == 3 ? const SettingScreen() : Container(),
+          _selectedIndex == 3 ? const ExploreWebsiteScreen() : Container(),
           _selectedIndex == 4 ? const SettingScreen() : Container(),
         ],
       ),

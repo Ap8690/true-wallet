@@ -36,8 +36,8 @@ class _TransactionHistoryState extends State<TransactionHistory> {
           Flexible(
             child: Container(
               child: ListView.builder(itemBuilder: (context, index) {
-                return _buildTransactionTile(ImagePath.compassGradient, 'Fit24',
-                    'ankush', '1999', '25', '\$');
+                return _buildTransactionTile(
+                    ImagePath.creditIcon, 'Fit24', '499');
               }),
             ),
           )
@@ -49,10 +49,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   Widget _buildTransactionTile(
     String imagePath,
     String title,
-    String subTitle,
     String amount,
-    String increasedAmount,
-    String currency,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -78,29 +75,13 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                       )),
                   Container(
                     width: 80,
-                    child: Column(
-                      children: [
-                        CustomText(
-                          text: title,
-                          style: CustomTextStyles.textCommon(
-                              fontWeight: FontWeight.bold,
-                              color: CustomColor.black),
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        CustomText(
-                          text: '+$subTitle%',
-                          style: CustomTextStyles.textSubLabel(
-                              color: CustomColor.green),
-                        )
-                      ],
-                    ),
-                  ),
-                  CustomText(
-                    text: '.Stake',
-                    style: CustomTextStyles.textLabel(
-                      color: CustomColor.blue,
+                    child: Center(
+                      child: CustomText(
+                        text: title,
+                        style: CustomTextStyles.textCommon(
+                            fontWeight: FontWeight.bold,
+                            color: CustomColor.black),
+                      ),
                     ),
                   ),
                 ],
@@ -110,16 +91,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                   CustomText(
                     text: '\$ $amount',
                     style: CustomTextStyles.textCommon(
-                      color: CustomColor.black,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  CustomText(
-                    text: '$increasedAmount {$currency}',
-                    style: CustomTextStyles.textLabel(
-                      color: CustomColor.grey,
+                      color: CustomColor.green,
                     ),
                   ),
                 ],

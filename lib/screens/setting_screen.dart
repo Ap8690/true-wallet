@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_gradient_text.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
+import 'package:flutter_application_1/screens/connect_wallet_screen.dart';
 import 'package:flutter_application_1/screens/export_private_key_screen.dart';
 import '../constants/custom_color.dart';
 import 'about_screen.dart';
@@ -43,13 +44,16 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
             const SizedBox(height: 60),
             _buildListTile(context, 'About', () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AboutScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const AboutScreen()));
             }),
             _buildListTile(
               context,
               'Request a Feature',
-              () {},
+              () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ConnectWalletScreen()));
+              },
               trailingIcon: defaultTrailingIcon,
             ),
             _buildListTile(
