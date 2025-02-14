@@ -4,7 +4,6 @@ import 'package:flutter_application_1/constants/image_path.dart';
 import '../constants/custom_color.dart';
 import 'custom_gradient_text.dart';
 
-//check
 class SendReceiveBottomsheet {
   static show(
     BuildContext context,

@@ -3,8 +3,10 @@ import 'package:flutter_application_1/components/send_receive_bottomsheet.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/presentation/auth/bloc/auth_bloc.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_application_1/screens/explore_website_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/onboarding_screen.dart';
+import 'package:flutter_application_1/screens/transfer_screen.dart';
 import 'package:flutter_application_1/screens/setting_screen.dart';
 import 'package:flutter_application_1/screens/transaction_history_screen.dart';
 import 'package:flutter_application_1/services/sharedpref/preference_service.dart';
@@ -20,13 +22,13 @@ class MyApp extends StatelessWidget {
   static GetIt getIt = GetIt.I;
   static PreferenceService preferenceService = getIt<PreferenceService>();
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (BuildContext context)=> WalletBloc(di.sl())),
-          BlocProvider(create: (BuildContext context)=> AuthBloc(di.sl(),di.sl()))
+          BlocProvider(create: (BuildContext context) => WalletBloc(di.sl())),
+          BlocProvider(
+              create: (BuildContext context) => AuthBloc(di.sl(), di.sl()))
         ],
         child: MaterialApp(
           title: 'TrueWallet',
@@ -34,7 +36,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               colorScheme:
                   const ColorScheme.light(onPrimary: CustomColor.white)),
-          home: preferenceService.isLoggedIn ? const LoginScreen() :  OnboardingScreen() ,
+          home: preferenceService.isLoggedIn
+              ? const LoginScreen()
+              : OnboardingScreen(),
         ));
   }
 }
@@ -56,44 +60,23 @@ class _HomeContentScreenState extends State<HomeContentScreen>
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-
-      if (_selectedIndex == 2) {
-        SendReceiveBottomsheet.show(
-          context,
-          "Choose an Action",
-          [
-            {"icon": "path_to_icon1", "label": "Send"},
-            {"icon": "path_to_icon2", "label": "Receive"},
-          ],
-          (selectedItem) {
-            print("Selected: $selectedItem");
-          },
-        );
-      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Widget> screens = [
-      const HomeScreen(),
-      const TransactionHistory(),
-      const Scaffold(
-        body: Center(
-          child: Text(
-            "Send/Receive Screen",
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-      ),
-      const SettingScreen(),
-      const SettingScreen()
-    ];
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
-        children: screens,
+        children: [
+          _selectedIndex == 0 ? const HomeScreen() : Container(),
+          _selectedIndex == 1 ? const TransactionHistory() : Container(),
+          _selectedIndex == 2 ? const TransferScreen() : Container(),
+          _selectedIndex == 3 ? const ExploreWebsiteScreen() : Container(),
+          _selectedIndex == 4 ? const SettingScreen() : Container(),
+        ],
       ),
       bottomNavigationBar: AppBottomNavigationBar(
         currentIndex: _selectedIndex,

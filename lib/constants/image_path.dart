@@ -1,5 +1,6 @@
 class ImagePath {
   static String trueWallet = 'assets/images/appBar_icon.png';
+  static String blockFit = 'assets/images/blockfit_icon.png';
   static String onboardingOne = 'assets/images/onboarding_screen_one.png';
   static String onboardingTwo = 'assets/images/onboarding_screen_two.png';
   static String onboardingThree = 'assets/images/onboarding_screen_three.png';
@@ -24,4 +25,7 @@ class ImagePath {
   static String settingGrey = 'assets/images/setting_grey.png';
   static String settingGradient = 'assets/images/setting_gradient.png';
   static String eyeRed = 'assets/images/red_eye.png';
+  static String cannotVerifyIcon = 'assets/images/cannot_verify.png';
+  static String debitIcon = 'assets/images/debit_icon.png';
+  static String creditIcon = 'assets/images/credit_icon.png';
 }

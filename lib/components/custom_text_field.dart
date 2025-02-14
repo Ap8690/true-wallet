@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/custom_text_styles.dart';
 import '../constants/custom_color.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -18,32 +19,36 @@ class CustomTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final double focusedBorderWidth;
   final Color focusedBorderColor;
+  final Color? borderColour;
   final bool isFullSize;
   final bool isPassword;
   final InputDecoration? decoration;
+  final String? prefixText;
 
-  const CustomTextField({
-    Key? key,
-    this.controller,
-    this.hintText,
-    this.iconPath,
-    this.onChanged,
-    this.isPhoneNumber = false,
-    this.keyboardType = TextInputType.text,
-    this.maxLines = 1,
-    this.focusNode,
-    this.textAlign = TextAlign.start,
-    this.maxLength,
-    this.textStyle,
-    this.onTap,
-    this.onSubmitted,
-    this.textInputAction,
-    this.focusedBorderWidth = 2.0,
-    this.focusedBorderColor = Colors.green,
-    this.isFullSize = true,
-    this.isPassword = false,
-    this.decoration,
-  }) : super(key: key);
+  const CustomTextField(
+      {Key? key,
+      this.controller,
+      this.hintText,
+      this.iconPath,
+      this.onChanged,
+      this.isPhoneNumber = false,
+      this.keyboardType = TextInputType.text,
+      this.maxLines = 1,
+      this.focusNode,
+      this.textAlign = TextAlign.start,
+      this.maxLength,
+      this.textStyle,
+      this.onTap,
+      this.onSubmitted,
+      this.textInputAction,
+      this.focusedBorderWidth = 2.0,
+      this.focusedBorderColor = Colors.green,
+      this.isFullSize = true,
+      this.isPassword = false,
+      this.decoration,
+      this.prefixText,
+      this.borderColour})
+      : super(key: key);
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -75,6 +80,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             obscureText: widget.isPassword && !_isTextVisible,
             decoration: widget.decoration ??
                 InputDecoration(
+                  prefixText: widget.prefixText,
+                  prefixStyle:
+                      CustomTextStyles.textCommon(color: CustomColor.grey),
                   prefixIcon: widget.iconPath != null
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -107,11 +115,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   counterText: '',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),
-                    borderSide: const BorderSide(color: Colors.green, width: 2),
+                    borderSide: BorderSide(
+                        color: widget.borderColour ?? Colors.green, width: 2),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),
-                    borderSide: const BorderSide(color: Colors.green, width: 2),
+                    borderSide: BorderSide(
+                        color: widget.borderColour ?? Colors.green, width: 2),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),

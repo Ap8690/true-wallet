@@ -13,6 +13,8 @@ class CustomHomeAppbar extends StatelessWidget {
   final VoidCallback? onTrailingTap;
   final VoidCallback? onBackTap;
   final String? centreText;
+  final String? centreAsset;
+  final double? centreAssetSize;
 
   const CustomHomeAppbar({
     super.key,
@@ -22,6 +24,8 @@ class CustomHomeAppbar extends StatelessWidget {
     this.onTrailingTap,
     this.onBackTap,
     this.centreText,
+    this.centreAsset,
+    this.centreAssetSize,
   });
 
   @override
@@ -84,9 +88,17 @@ class CustomHomeAppbar extends StatelessWidget {
   }
 
   Widget _buildCentreWidget() {
+    if (centreAsset != null) {
+      return Image.asset(
+        centreAsset!,
+        height: centreAssetSize ?? 50,
+        width: 120,
+      );
+    }
     return CustomGradientText(
-        text: centreText,
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+      text: centreText,
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    );
   }
 
   Widget _buildBackWidget() {
@@ -100,10 +112,16 @@ class CustomHomeAppbar extends StatelessWidget {
             onTap: onBackTap,
             child: Transform.rotate(
               angle: 180 * (3.14 / 180),
-              child: const Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: CustomColor.green,
+              child: const SizedBox(
+                height: 30,
+                width: 30,
+                child: Center(
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 20,
+                    color: CustomColor.green,
+                  ),
+                ),
               ),
             ),
           );
