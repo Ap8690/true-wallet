@@ -5,6 +5,7 @@ import 'package:flutter_application_1/components/custom_home_appbar.dart';
 import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
+import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/utils/helpers.dart';
 
 class TransactionSuccessScreen extends StatelessWidget {
@@ -18,14 +19,6 @@ class TransactionSuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: CustomHomeAppbar(
-          showBackWidget: false,
-          centreText: 'Transaction Success',
-          onBackTap: () => Navigator.of(context).pop(),
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
         child: Column(
@@ -81,7 +74,13 @@ class TransactionSuccessScreen extends StatelessWidget {
             CustomButton(
               text: 'Done',
               onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+            (route) => false,  // This removes all previous routes
+          );
               },
               isGradient: true,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),

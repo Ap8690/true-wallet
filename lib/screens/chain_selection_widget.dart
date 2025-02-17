@@ -3,6 +3,7 @@ import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_loader.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/presentation/networks/bloc/networks_bloc.dart';
+import 'package:flutter_application_1/presentation/networks/screens/add_chain_screen.dart';
 import 'package:flutter_application_1/presentation/networks/screens/view_chain_details.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 import 'package:flutter_application_1/services/wallet/models/chain_metadata.dart';
@@ -297,7 +298,7 @@ class _SelectChainState extends State<SelectChain> {
                                 },
                               ),
                               isNewChainButtonPressed
-                                  ? const SizedBox()
+                                  ? const AddChainScreenWidget()
                                   : ListView(
                                       children: [
                                         ListView.builder(
@@ -399,6 +400,7 @@ class _SelectChainState extends State<SelectChain> {
                 ))
             : CircleAvatar(
                 radius: 15,
+                backgroundColor: Colors.grey[100],
                 backgroundImage: NetworkImage(walletBloc.selectedChain.logo!),
               ),
         SizedBox(
@@ -408,7 +410,7 @@ class _SelectChainState extends State<SelectChain> {
           walletBloc.selectedChain.name.substring(0, 3),
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.bold),
         ),
@@ -416,26 +418,6 @@ class _SelectChainState extends State<SelectChain> {
           Icons.keyboard_arrow_down,
           color: CustomColor.black,
           size: 28,
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        InkWell(
-          onTap: () {},
-          child: const Icon(
-            Icons.qr_code_scanner_rounded,
-            color: CustomColor.black,
-          ),
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.chat,
-            color: CustomColor.black,
-          ),
         ),
         SizedBox(
           width: 20,
@@ -536,6 +518,7 @@ class ChainTile extends StatelessWidget {
                     ))
                 : CircleAvatar(
                     radius: 20,
+                    backgroundColor: Colors.grey[100],
                     backgroundImage: NetworkImage(chainData.logo!),
                   ),
             title: Row(

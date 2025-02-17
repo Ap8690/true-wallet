@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
@@ -11,8 +12,10 @@ import 'package:flutter_application_1/presentation/send/bloc/send_bloc.dart';
 import 'package:flutter_application_1/presentation/send/view/transaction_success_screen.dart';
 import 'package:flutter_application_1/utils/helpers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_application_1/models/transaction_history.dart';
 
 class ConfirmTransferScreen extends StatefulWidget {
   final String senderAccount;
@@ -66,14 +69,18 @@ class _ConfirmTransferScreenState extends State<ConfirmTransferScreen> {
         if (state is SendTransactionLoading) {
           setState(() => isLoading = true);
         } else if (state is SendTransactionSuccess) {
+          // Store transaction in local storage
+          _storeTransaction(state.hash);
+          
           // Navigate to success screen with hash
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => TransactionSuccessScreen(
                 transactionHash: state.hash,
               ),
             ),
+            (route) => false,  // This removes all previous routes
           );
         } else if (state is SendTransactionFails) {
           setState(() => isLoading = false);
@@ -280,5 +287,35 @@ class _ConfirmTransferScreenState extends State<ConfirmTransferScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
       textStyle: CustomTextStyles.textCommon(color: CustomColor.white),
     );
+  }
+
+  Future<void> _storeTransaction(String hash) async {
+    final prefs = await SharedPreferences.getInstance();
+    final transaction = TransactionHistory(
+      hash: hash,
+      from: widget.senderAccount,
+      to: widget.receiverAccount,
+      amount: widget.amount,
+      tokenSymbol: walletBloc.selectedToken.symbol,
+      status: 'Completed',
+      timestamp: DateTime.now(),
+      chainId: walletBloc.selectedChain.chainId,
+      explorerUrl: walletBloc.selectedChain.explorerUrl ?? '',
+    );
+
+    // Get existing transactions
+    final existingTransactionsJson = prefs.getStringList('transactions') ?? [];
+    final existingTransactions = existingTransactionsJson
+        .map((json) => TransactionHistory.fromJson(jsonDecode(json)))
+        .toList();
+
+    // Add new transaction
+    existingTransactions.insert(0, transaction);
+
+    // Save updated transactions
+    final updatedTransactionsJson = existingTransactions
+        .map((tx) => jsonEncode(tx.toJson()))
+        .toList();
+    await prefs.setStringList('transactions', updatedTransactionsJson);
   }
 }

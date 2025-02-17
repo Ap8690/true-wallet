@@ -78,7 +78,7 @@ class _HomeContentScreenState extends State<HomeContentScreen>
         index: _selectedIndex,
         children: [
           _selectedIndex == 0 ? const HomeScreen() : Container(),
-          _selectedIndex == 1 ? const TransactionHistory() : Container(),
+          _selectedIndex == 1 ? const TransactionHistoryScreen() : Container(),
           _selectedIndex == 2 ? const TransferScreen() : Container(),
           _selectedIndex == 3 ? const ExploreWebsiteScreen() : Container(),
           _selectedIndex == 4 ? const SettingScreen() : Container(),
