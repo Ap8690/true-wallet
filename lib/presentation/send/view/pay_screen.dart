@@ -6,6 +6,8 @@ import 'package:flutter_application_1/components/custom_text_field.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 
 class PayScreen extends StatefulWidget {
   const PayScreen({super.key});
@@ -21,6 +23,14 @@ class _PayScreenState extends State<PayScreen> {
       TextEditingController();
   final FocusNode _senderFocusNode = FocusNode();
   final FocusNode _receiverFocusNode = FocusNode();
+  late WalletBloc walletBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    walletBloc = BlocProvider.of<WalletBloc>(context);
+    _senderAccountController.text = walletBloc.selectedAccount?.address ?? '';
+  }
 
   @override
   void dispose() {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_gradient_text.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
+import 'package:flutter_application_1/screens/chain_selection_widget.dart';
 
 import 'custom_text.dart';
 import 'custom_text_styles.dart';
@@ -51,37 +52,7 @@ class CustomHomeAppbar extends StatelessWidget {
 
   Widget _buildTrailingWidget() {
     return showTrailingWidget
-        ? GestureDetector(
-            onTap: onTrailingTap,
-            child: Container(
-              width: 100,
-              height: 38,
-              decoration: BoxDecoration(
-                color: CustomColor.blue,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomText(
-                    text: 'BlockFit',
-                    style: CustomTextStyles.textCommon(
-                      color: CustomColor.white,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  Transform.rotate(
-                    angle: 90 * (3.14 / 180),
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
-                      color: CustomColor.offWhite,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
+        ? ChainSelectionWidget()
         : const SizedBox(
             width: 10,
           );

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/send_receive_bottomsheet.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/presentation/auth/bloc/auth_bloc.dart';
+import 'package:flutter_application_1/presentation/networks/bloc/networks_bloc.dart';
+import 'package:flutter_application_1/presentation/send/bloc/send_bloc.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 import 'package:flutter_application_1/screens/explore_website_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/onboarding_screen.dart';
-import 'package:flutter_application_1/screens/transfer_screen.dart';
+import 'package:flutter_application_1/presentation/send/view/transfer_screen.dart';
 import 'package:flutter_application_1/screens/setting_screen.dart';
 import 'package:flutter_application_1/screens/transaction_history_screen.dart';
 import 'package:flutter_application_1/services/sharedpref/preference_service.dart';
@@ -26,9 +28,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (BuildContext context) => WalletBloc(di.sl())),
+          BlocProvider(create: (BuildContext context) => WalletBloc(di.sl(),),),
           BlocProvider(
-              create: (BuildContext context) => AuthBloc(di.sl(), di.sl()))
+              create: (BuildContext context) => AuthBloc(di.sl(), di.sl(),),),
+               BlocProvider(create: (BuildContext context) => SendBloc(di.sl(),  BlocProvider.of<WalletBloc>(context),)),
+                BlocProvider(
+          create: (BuildContext context) => NetworksBloc(di.sl(), di.sl()),
+        ),
         ],
         child: MaterialApp(
           title: 'TrueWallet',

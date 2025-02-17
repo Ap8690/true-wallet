@@ -1,5 +1,7 @@
 import 'package:flutter_application_1/core/network/http_client.dart';
+import 'package:flutter_application_1/services/chain/chain_service.dart';
 import 'package:flutter_application_1/services/secure_storage_service/secure_storage_service.dart';
+import 'package:flutter_application_1/services/send/send_service.dart';
 import 'package:flutter_application_1/services/sharedpref/preference_service.dart';
 import 'package:flutter_application_1/services/wallet/key_service/key_service.dart';
 import 'package:flutter_application_1/services/wallet/wallet_service.dart';
@@ -19,4 +21,6 @@ Future<void> init() async {
   sl.registerLazySingleton<KeyService>(() => KeyService());
   sl.registerLazySingleton<SecureStorageService>(() => SecureStorageService());
   sl.registerLazySingleton<WalletConnectService>(() => WalletConnectService());
+  sl.registerLazySingleton<NetworksService>(() => NetworksService());
+    sl.registerLazySingleton<SendService>(() => SendService());
 }

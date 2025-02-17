@@ -5,7 +5,7 @@ import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
-import 'package:flutter_application_1/screens/pay_screen.dart';
+import 'package:flutter_application_1/presentation/send/view/pay_screen.dart';
 
 class ConnectWalletScreen extends StatefulWidget {
   const ConnectWalletScreen({super.key});

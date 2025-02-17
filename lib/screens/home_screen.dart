@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
+import 'package:flutter_application_1/presentation/send/view/pay_screen.dart';
+import 'package:flutter_application_1/presentation/send/view/send_screen.dart';
+import 'package:flutter_application_1/presentation/send/view/transfer_screen.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 import 'package:flutter_application_1/screens/dapp_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -142,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Column(
                   children: [
                     CustomText(
-                      text: '\$ 145.25',
+                      text: "${walletBloc.selectedAccount?.balance ?? 0} ${walletBloc.selectedToken.symbol}",
                       style: CustomTextStyles.textSubTitle(),
                     ),
                     const SizedBox(
@@ -243,7 +246,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 20,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SendScreen()));
+                      },
                       child: Image.asset(
                         ImagePath.sendImage,
                         height: 100,

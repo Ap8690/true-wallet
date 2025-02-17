@@ -4,9 +4,9 @@ import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
-import 'package:flutter_application_1/screens/send_screen.dart';
+import 'package:flutter_application_1/presentation/send/view/send_screen.dart';
 
-import '../components/custom_button.dart';
+import '../../../components/custom_button.dart';
 
 class TransferScreen extends StatefulWidget {
   const TransferScreen({super.key});
