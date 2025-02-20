@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
+import 'package:flutter_application_1/presentation/receive/view/receive_screen.dart';
 import 'package:flutter_application_1/presentation/send/view/pay_screen.dart';
 import 'package:flutter_application_1/presentation/send/view/send_screen.dart';
 import 'package:flutter_application_1/presentation/send/view/transfer_screen.dart';
@@ -235,7 +236,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const ReceiveScreen()));
+                          },
                           child: Image.asset(
                             ImagePath.receiveImage,
                             height: 100,

@@ -57,15 +57,33 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   }
 
   void onButtonPressed() {
-    if (_passwordController.text == _confirmPasswordController.text) {
-      authBloc.add(SetPin(
-          pin: _confirmPasswordController.text,
-          wallet: walletBloc.wallet!,
-          chainList: walletBloc.chains));
-
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const PasswordWarningScreen()));
+    if (_passwordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 8 characters long'),
+          backgroundColor: CustomColor.red,
+        ),
+      );
+      return;
     }
+
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Passwords do not match'),
+          backgroundColor: CustomColor.red,
+        ),
+      );
+      return;
+    }
+
+    authBloc.add(SetPin(
+        pin: _confirmPasswordController.text,
+        wallet: walletBloc.wallet!,
+        chainList: walletBloc.chains));
+
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const PasswordWarningScreen()));
   }
 
   void doNothing() {}

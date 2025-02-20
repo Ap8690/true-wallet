@@ -57,6 +57,7 @@ dependencies:
   flutter_web3_webview: ^0.1.2
   loader_overlay: ^5.0.0
   flutter_svg: ^2.0.17
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:

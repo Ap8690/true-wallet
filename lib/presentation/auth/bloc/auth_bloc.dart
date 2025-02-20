@@ -30,27 +30,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<VerifyPin>((event, emit) async {
       emit(const VerifyPinLoading());
-      final isValid = await secureStorageService.verifyPassword(event.pin);
-      if (!isValid) {
-        emit(const VerifyPinFailure("Invalid Pin"));
-      } else {
+      try {
+        final isValid = await secureStorageService.verifyPassword(event.pin);
+        if (!isValid) {
+          emit(const VerifyPinFailure("Invalid Password"));
+          return;
+        }
+
         String? walletMetString =
             await secureStorageService.fetchWithPin("walletMeta");
         String? chainMetaString =
             await secureStorageService.fetchWithPin("chainMeta");
 
-        if (chainMetaString == null && walletMetString == null) {
-          return emit(const VerifyPinFailure("Something Went Wrong"));
+        if (chainMetaString == null || walletMetString == null) {
+          emit(const VerifyPinFailure("Something Went Wrong"));
+          return;
         }
+        
         emit(VerifyPinSuccess(
-            walletMetaString: walletMetString!,
-            chainMetaString: chainMetaString!));
+            walletMetaString: walletMetString,
+            chainMetaString: chainMetaString));
+      } catch (e) {
+        emit(VerifyPinFailure(e.toString()));
       }
     });
 
     on<SetPin>((event, emit) async {
       emit(const SetPinLoading());
       try {
+        // Validate password length
+        if (event.pin.length < 8) {
+          emit(const SetPinFailure("Password must be at least 8 characters long"));
+          return;
+        }
+
         await secureStorageService.savePassword(event.pin);
         await secureStorageService.saveWithPin(
             "walletMeta", jsonEncode(event.wallet.toJson()));
