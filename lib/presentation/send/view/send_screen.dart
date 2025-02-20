@@ -148,7 +148,7 @@ class _SendScreenState extends State<SendScreen> {
         ),
         const SizedBox(height: 10),
         CustomTextField(
-          prefixText: '\$ ',
+          prefixText: '${walletBloc.selectedToken.symbol} ',
           controller: _amountController,
           isFullSize: true,
           isPassword: false,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/app.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
 import 'package:flutter_application_1/components/custom_text.dart';
@@ -74,13 +75,13 @@ class TransactionSuccessScreen extends StatelessWidget {
             CustomButton(
               text: 'Done',
               onPressed: () {
-              Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-            (route) => false,  // This removes all previous routes
-          );
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeContentScreen(),
+                  ),
+                  (route) => false,  // This removes all previous routes
+                );
               },
               isGradient: true,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),

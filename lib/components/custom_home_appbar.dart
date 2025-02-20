@@ -77,7 +77,7 @@ class CustomHomeAppbar extends StatelessWidget {
         ? Image.asset(
             ImagePath.trueWallet,
             height: 50,
-            width: 120,
+            width: 80,
           )
         : GestureDetector(
             onTap: onBackTap,

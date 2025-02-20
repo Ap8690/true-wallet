@@ -4,7 +4,9 @@ import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/presentation/auth/bloc/auth_bloc.dart';
 import 'package:flutter_application_1/presentation/networks/bloc/networks_bloc.dart';
 import 'package:flutter_application_1/presentation/send/bloc/send_bloc.dart';
+import 'package:flutter_application_1/presentation/send/view/send_screen.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_application_1/screens/dapp_view.dart';
 import 'package:flutter_application_1/screens/explore_website_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/onboarding_screen.dart';
@@ -76,12 +78,12 @@ class _HomeContentScreenState extends State<HomeContentScreen>
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
-        children: [
-          _selectedIndex == 0 ? const HomeScreen() : Container(),
-          _selectedIndex == 1 ? const TransactionHistoryScreen() : Container(),
-          _selectedIndex == 2 ? const TransferScreen() : Container(),
-          _selectedIndex == 3 ? const ExploreWebsiteScreen() : Container(),
-          _selectedIndex == 4 ? const SettingScreen() : Container(),
+        children: const [
+          HomeScreen(),
+          TransactionHistoryScreen(),
+          SendScreen(),
+          DappView(initialDappUrl:"https://pancakeswap.finance/",name: "Pancake Swap",),
+          SettingScreen(),
         ],
       ),
       bottomNavigationBar: AppBottomNavigationBar(

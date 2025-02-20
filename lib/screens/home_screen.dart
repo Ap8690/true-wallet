@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
+        print(walletBloc.selectedAccount!.address);
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80),
@@ -169,14 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(color: CustomColor.blue, width: 1)),
                       child: InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const DappView(
-                                      initialDappUrl:
-                                          "https://pancakeswap.finance/",
-                                      name: "Pancake Swap",
-                                    ))),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Row(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/app.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
@@ -71,9 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
           BlocListener<WalletBloc, WalletState>(
             listener: (context, state) {
               if (state is InitializeWalletSuccess) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const HomeScreen();
-                }));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeContentScreen()),
+                  (route) => false,
+                );
               }
             },
           ),
@@ -179,7 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: CustomButton(
                           text: 'Next',
                           onPressed: () {
-                            print("yo");
                             authBloc.add(VerifyPin(_passwordController.text));
                           },
                           isGradient: true,
@@ -214,9 +216,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                                 builder: (context) =>
-                                    const ResetWalletPhraseScreen()));
+                                    const ResetWalletPhraseScreen()),(Route<dynamic> route) => false);
                           },
                           child: CustomText(
                             text: 'Reset Wallet',
