@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class _DappViewState extends State<DappView> with TickerProviderStateMixin {
     searchController.text = widget.initialDappUrl;
 
     final newChain = walletBloc.chains.firstWhere(
-      (chain) => int.parse(chain.chainId.split(':').last) == 56,
+      (chain) => int.parse(chain.chainId.split(':').last) == 202424,
       orElse: () => throw Exception('Unsupported chain'),
     );
 
@@ -565,8 +564,7 @@ class _WebViewTabState extends State<WebViewTab>
               children: [
                 CircularProgressIndicator(
                   value: loadingProgress > 0 ? loadingProgress : null,
-                  valueColor:
-                      const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 ),
                 const SizedBox(height: 10),
                 Text(

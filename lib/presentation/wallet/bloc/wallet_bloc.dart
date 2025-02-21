@@ -32,8 +32,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   CryptoWallet? wallet;
   CryptoAccount? selectedAccount;
 
-  TokenMetaData selectedToken = ChainData.allChains.first.tokens.first;
-  ChainMetadata selectedChain = ChainData.allChains.first;
+  TokenMetaData selectedToken = ChainData.mainChains.first.tokens.first;
+  ChainMetadata selectedChain = ChainData.mainChains.first;
   List<ChainMetadata> chains = ChainData.allChains;
 
   SecureStorageService storageService = GetIt.I<SecureStorageService>();

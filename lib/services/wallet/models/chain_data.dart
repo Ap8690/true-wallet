@@ -9,7 +9,7 @@ class ChainData {
       isDefault: true,
       tokens: [
         TokenMetaData(
-          contract: "0x0000000000000000000000000000000000001010",
+          contract: "0x0000000000000000000000000000000000000000",
           name: "BlockFit",
           isNative: true,
           symbol: "BFIT",
