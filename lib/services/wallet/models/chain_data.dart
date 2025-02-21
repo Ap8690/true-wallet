@@ -3,7 +3,8 @@ import 'package:flutter_application_1/services/wallet/models/chain_metadata.dart
 class ChainData {
   static final List<ChainMetadata> mainChains = [
     ChainMetadata(
-      logo: "https://blockfitscan.io/_next/image?url=https%3A%2F%2Ff005.backblazeb2.com%2Ffile%2Ftracehawk-prod%2Flogo%2FBlockFit%2FLight.png&w=256&q=75",
+      logo:
+          "https://blockfitscan.io/_next/image?url=https%3A%2F%2Ff005.backblazeb2.com%2Ffile%2Ftracehawk-prod%2Flogo%2FBlockFit%2FLight.png&w=256&q=75",
       id: "1",
       isDefault: true,
       tokens: [
@@ -31,7 +32,7 @@ class ChainData {
     ChainMetadata(
       logo: "https://avatars.githubusercontent.com/u/66309068?s=200&v=4",
       id: "2",
-      isDefault: false,
+      isDefault: true,
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000001010",
@@ -57,7 +58,7 @@ class ChainData {
     ChainMetadata(
         logo: "https://avatars.githubusercontent.com/u/6250754?s=200&v=4",
         id: "3",
-        isDefault: false,
+        isDefault: true,
         tokens: [
           TokenMetaData(
             contract: "0x0000000000000000000000000000000000000000",
@@ -76,7 +77,7 @@ class ChainData {
       explorerUrl: "https://bsc-dataseed.binance.org/",
       logo: "https://avatars.githubusercontent.com/u/45615063?s=200&v=4",
       id: "4",
-      isDefault: false,
+      isDefault: true,
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000000000",
