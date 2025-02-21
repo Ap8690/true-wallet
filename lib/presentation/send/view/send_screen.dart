@@ -5,6 +5,7 @@ import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_field.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
+import 'package:flutter_application_1/core/helpers/media_query_helper.dart';
 import 'package:flutter_application_1/presentation/send/view/confirm_transfer_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
@@ -99,22 +100,57 @@ class _SendScreenState extends State<SendScreen> {
               _accountField('To', _receiverAccountController,
                   _receiverFocusNode, _amountFocusNode),
               const SizedBox(height: 20),
-              TextField(
-                controller: _amountController,
-                focusNode: _amountFocusNode,
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                textInputAction: TextInputAction.done,
-                onSubmitted: (_) {
-                  FocusScope.of(context).unfocus();
-                },
-                decoration: const InputDecoration(
-                  hintText: "",
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        SizedBox(
+                          width: MediaQueryHelper.getWidth(context) * 0.3,
+                          child: TextField(
+                            controller: _amountController,
+                            focusNode: _amountFocusNode,
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 32
+                            ),
+                            decoration: const InputDecoration(
+                              hintText: "0.00",
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          
+                          width: MediaQueryHelper.getWidth(context) * 0.3,
+                          child: Text(
+                            walletBloc.selectedToken.symbol,
+                            style: const TextStyle(
+                              color: CustomColor.green,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 32
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
               const SizedBox(height: 40),
               Center(child: _confirmButton()),
@@ -151,34 +187,6 @@ class _SendScreenState extends State<SendScreen> {
             if (nextFocusNode != null) {
               FocusScope.of(context).requestFocus(nextFocusNode);
             }
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _amountField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomText(
-          text: 'Amount',
-          style: CustomTextStyles.textCommon(
-              color: CustomColor.grey, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 10),
-        CustomTextField(
-          prefixText: '${walletBloc.selectedToken.symbol} ',
-          controller: _amountController,
-          isFullSize: true,
-          isPassword: false,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          borderColour: CustomColor.grey,
-          focusedBorderColor: CustomColor.grey,
-          focusNode: _amountFocusNode,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) {
-            FocusScope.of(context).unfocus();
           },
         ),
       ],
