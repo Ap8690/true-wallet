@@ -4,9 +4,10 @@ import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
-import 'package:flutter_application_1/presentation/send/view/send_screen.dart';
 
 import '../../../components/custom_button.dart';
+import '../../receive/view/receive_screen.dart';
+import 'send_screen.dart';
 
 class TransferScreen extends StatefulWidget {
   const TransferScreen({super.key});
@@ -110,7 +111,10 @@ class _TransferScreenState extends State<TransferScreen> {
         Expanded(
           child: CustomButton(
             text: 'Receive',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ReceiveScreen()));
+            },
             isGradient: false,
             backgroundColor: CustomColor.grey,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),

@@ -64,9 +64,11 @@ class _SendScreenState extends State<SendScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              CustomText(
-                text: "Your Balance",
-                style: CustomTextStyles.textTitle(),
+              Center(
+                child: CustomText(
+                  text: "Your Balance",
+                  style: CustomTextStyles.textTitle(),
+                ),
               ),
               const SizedBox(height: 10),
               Row(
@@ -75,7 +77,8 @@ class _SendScreenState extends State<SendScreen> {
                 children: [
                   CustomText(
                     text: "${walletBloc.selectedAccount?.balance ?? 0}",
-                    style: CustomTextStyles.textHeading(fontWeight: FontWeight.bold),
+                    style: CustomTextStyles.textHeading(
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 10),
                   Container(
@@ -93,12 +96,28 @@ class _SendScreenState extends State<SendScreen> {
               _accountField('From', _senderAccountController, _senderFocusNode,
                   _receiverFocusNode),
               const SizedBox(height: 20),
-              _accountField(
-                  'To', _receiverAccountController, _receiverFocusNode, _amountFocusNode),
+              _accountField('To', _receiverAccountController,
+                  _receiverFocusNode, _amountFocusNode),
               const SizedBox(height: 20),
-              _amountField(),
+              TextField(
+                controller: _amountController,
+                focusNode: _amountFocusNode,
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                textInputAction: TextInputAction.done,
+                onSubmitted: (_) {
+                  FocusScope.of(context).unfocus();
+                },
+                decoration: const InputDecoration(
+                  hintText: "",
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
+              ),
               const SizedBox(height: 40),
-              _confirmButton(),
+              Center(child: _confirmButton()),
             ],
           ),
         ),
@@ -125,8 +144,9 @@ class _SendScreenState extends State<SendScreen> {
           borderColour: CustomColor.grey,
           focusedBorderColor: CustomColor.grey,
           focusNode: focusNode,
-          textInputAction:
-              nextFocusNode != null ? TextInputAction.next : TextInputAction.done,
+          textInputAction: nextFocusNode != null
+              ? TextInputAction.next
+              : TextInputAction.done,
           onSubmitted: (_) {
             if (nextFocusNode != null) {
               FocusScope.of(context).requestFocus(nextFocusNode);

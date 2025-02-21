@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
 import 'package:flutter_application_1/presentation/receive/view/receive_screen.dart';
@@ -59,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 2,
                       )),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 12),
                     child: Column(
                       children: [
                         Row(
@@ -117,23 +118,42 @@ class _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                     color: CustomColor.lightBlue,
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      walletBloc.selectedAccount!.address,
-                                      style: const TextStyle(
-                                        fontSize: 8,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${walletBloc.selectedAccount!.address.substring(0, 6)}...${walletBloc.selectedAccount!.address.substring(walletBloc.selectedAccount!.address.length - 4)}',
+                                        style: const TextStyle(
+                                          fontSize: 8,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Image.asset(
-                                      ImagePath.copyIcon,
-                                      height: 10,
-                                      width: 10,
-                                    )
-                                  ],
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Clipboard.setData(ClipboardData(
+                                              text: walletBloc
+                                                  .selectedAccount!.address));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  "Address copied to clipboard"),
+                                              duration: Duration(seconds: 1),
+                                            ),
+                                          );
+                                        },
+                                        child: Image.asset(
+                                          ImagePath.copyIcon,
+                                          height: 10,
+                                          width: 10,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ))
                           ],
                         )
@@ -150,7 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         CustomText(
-                          text: "${walletBloc.selectedAccount?.balance ?? 0} ${walletBloc.selectedToken.symbol}",
+                          text:
+                              "${walletBloc.selectedAccount?.balance ?? 0} ${walletBloc.selectedToken.symbol}",
                           style: CustomTextStyles.textSubTitle(),
                         ),
                         const SizedBox(
@@ -168,7 +189,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 30,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: CustomColor.blue, width: 1)),
+                          border:
+                              Border.all(color: CustomColor.blue, width: 1)),
                       child: InkWell(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -212,7 +234,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'Buy',
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const TransactionHistoryScreen()));
+                          builder: (context) =>
+                              const TransactionHistoryScreen()));
                     },
                     isGradient: true,
                     padding:
@@ -224,7 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 CustomText(
                   text: 'Actions',
-                  style: CustomTextStyles.textSubTitle(color: CustomColor.black),
+                  style:
+                      CustomTextStyles.textSubTitle(color: CustomColor.black),
                 ),
                 const SizedBox(
                   height: 20,

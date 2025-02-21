@@ -9,11 +9,14 @@ import 'package:flutter_application_1/utils/helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../components/custom_gradient_text.dart';
+
 class TransactionHistoryScreen extends StatefulWidget {
   const TransactionHistoryScreen({super.key});
 
   @override
-  State<TransactionHistoryScreen> createState() => _TransactionHistoryScreenState();
+  State<TransactionHistoryScreen> createState() =>
+      _TransactionHistoryScreenState();
 }
 
 class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
@@ -39,27 +42,41 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: CustomHomeAppbar(
-          showBackWidget: true,
-          centreText: 'Transaction History',
-          onBackTap: () => Navigator.of(context).pop(),
-        ),
+          preferredSize: const Size.fromHeight(80),
+          child: CustomHomeAppbar(
+            showBackWidget: true,
+            showTrailingWidget: true,
+            onTrailingTap: () {},
+          )),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const CustomGradientText(
+              text: 'Transaction History',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const SizedBox(
+            height: 30,
+          ),
+          transactions.isEmpty
+              ? Center(
+                  child: CustomText(
+                    text: 'No transactions yet',
+                    style: CustomTextStyles.textSubHeading(),
+                  ),
+                )
+              : Flexible(
+                  child: Container(
+                    child: ListView.builder(
+                      itemCount: transactions.length,
+                      itemBuilder: (context, index) {
+                        final tx = transactions[index];
+                        return _buildTransactionCard(tx);
+                      },
+                    ),
+                  ),
+                ),
+        ],
       ),
-      body: transactions.isEmpty
-          ? Center(
-              child: CustomText(
-                text: 'No transactions yet',
-                style: CustomTextStyles.textTitle(),
-              ),
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (context, index) {
-                final tx = transactions[index];
-                return _buildTransactionCard(tx);
-              },
-            ),
     );
   }
 

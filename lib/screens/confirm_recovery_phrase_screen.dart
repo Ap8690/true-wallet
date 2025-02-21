@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/home_screen.dart';
-
+import 'package:flutter_application_1/app.dart';
 import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
 import '../components/custom_gradient_text.dart';
@@ -32,7 +31,7 @@ class _ConfirmRecoveryPhraseScreenState
 
   void selectPhrase(String phrase) {
     if (selectedPhrases.contains(phrase)) return;
-    
+
     setState(() {
       int emptyIndex = selectedPhrases.indexOf('');
       if (emptyIndex != -1) {
@@ -56,9 +55,10 @@ class _ConfirmRecoveryPhraseScreenState
   }
 
   void checkOrder() {
-    List<String> filledPhrases = selectedPhrases.where((p) => p.isNotEmpty).toList();
+    List<String> filledPhrases =
+        selectedPhrases.where((p) => p.isNotEmpty).toList();
     isOrderCorrect = false;
-    
+
     if (filledPhrases.length == widget.seedPhrase.length) {
       isOrderCorrect = true;
       for (int i = 0; i < widget.seedPhrase.length; i++) {
@@ -117,7 +117,9 @@ class _ConfirmRecoveryPhraseScreenState
                     final phrase = selectedPhrases[index];
                     return Container(
                       decoration: BoxDecoration(
-                        color: phrase.isEmpty ? CustomColor.offWhite : CustomColor.green.withOpacity(0.2),
+                        color: phrase.isEmpty
+                            ? CustomColor.offWhite
+                            : CustomColor.green.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(color: CustomColor.green),
                       ),
@@ -138,7 +140,8 @@ class _ConfirmRecoveryPhraseScreenState
                                   GestureDetector(
                                     onTap: () => unselectPhrase(phrase),
                                     child: const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
                                       child: Icon(Icons.close, size: 16),
                                     ),
                                   ),
@@ -170,7 +173,8 @@ class _ConfirmRecoveryPhraseScreenState
                       padding: const EdgeInsets.all(16.0),
                       child: CustomText(
                         textAlign: TextAlign.center,
-                        text: 'Select each word in the order it was presented to you.',
+                        text:
+                            'Select each word in the order it was presented to you.',
                         style: CustomTextStyles.textHeading(
                           fontWeight: FontWeight.bold,
                           color: CustomColor.black,
@@ -183,7 +187,8 @@ class _ConfirmRecoveryPhraseScreenState
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 6,
@@ -201,12 +206,17 @@ class _ConfirmRecoveryPhraseScreenState
                               }
                             },
                             isGradient: false,
-                            backgroundColor: isSelected ? CustomColor.offWhite : CustomColor.white,
+                            backgroundColor: isSelected
+                                ? CustomColor.offWhite
+                                : CustomColor.white,
                             borderRadius: 24.0,
                             borderColor: CustomColor.green,
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 3),
                             textStyle: TextStyle(
-                              color: isSelected ? CustomColor.grey : CustomColor.black,
+                              color: isSelected
+                                  ? CustomColor.grey
+                                  : CustomColor.black,
                               fontSize: 14,
                             ),
                           );
@@ -219,15 +229,17 @@ class _ConfirmRecoveryPhraseScreenState
                         text: 'Continue',
                         onPressed: () {
                           if (isOrderCorrect) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => const HomeScreen())
-                            );
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const HomeContentScreen()));
                           }
                         },
                         isGradient: isOrderCorrect,
                         borderRadius: 24.0,
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 7.0),
-                        textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 7.0),
+                        textStyle:
+                            const TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ],
