@@ -59,15 +59,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          child: CustomAppbar(
-            showCenterWidget: true,
-          )),
+        preferredSize: Size.fromHeight(80),
+        child: CustomAppbar(
+          showCenterWidget: true,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
-              flex: 6,
               child: PageView.builder(
                 controller: _pageController,
                 itemCount: _images.length,
@@ -77,204 +77,190 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   });
                 },
                 itemBuilder: (context, index) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: Image.asset(
-                              _images[index],
-                              fit: BoxFit.contain,
-                            ),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: Image.asset(
+                            _images[index],
+                            fit: BoxFit.contain,
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Center(
-                          child: Container(
-                            width: 311,
-                            height: 307,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 40.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children:
-                                        List.generate(_images.length, (i) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          _pageController.animateToPage(
-                                            i,
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            curve: Curves.easeInOut,
-                                          );
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          width: _currentPage == i ? 12.0 : 8.0,
-                                          height: 8.0,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: _currentPage == i
-                                                ? Colors.blue
-                                                : Colors.grey,
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  if (_titles[index] == 'Wallet Setup')
-                                    CustomGradientText(
-                                      text: _titles[index],
-                                      style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  else if (_titles[index] ==
-                                      'Cryptocurrency is the')
-                                    RichText(
-                                      text: TextSpan(
-                                        style: CustomTextStyles.textSubHeading(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        children: [
-                                          const WidgetSpan(
-                                            alignment:
-                                                PlaceholderAlignment.middle,
-                                            child: CustomGradientText(
-                                              text: 'Cryptocurrency ',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: 'is the',
-                                            style:
-                                                CustomTextStyles.textSubHeading(
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  else
-                                    Text(
-                                      _titles[index],
-                                      style: CustomTextStyles.textSubHeading(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                      ),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: List.generate(_images.length, (i) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    _pageController.animateToPage(
+                                      i,
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                                    width: _currentPage == i ? 12.0 : 8.0,
+                                    height: 8.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _currentPage == i ? Colors.blue : Colors.grey,
                                     ),
-                                  if (_subtitles[index].isNotEmpty)
-                                    if (_titles[index] ==
-                                        'Cryptocurrency is the')
-                                      Text(
-                                        _subtitles[index],
-                                        style: const TextStyle(
+                                  ),
+                                );
+                              }),
+                            ),
+                            const SizedBox(height: 16),
+                            if (_titles[index] == 'Wallet Setup')
+                              CustomGradientText(
+                                text: _titles[index],
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            else if (_titles[index] ==
+                                'Cryptocurrency is the')
+                              RichText(
+                                text: TextSpan(
+                                  style: CustomTextStyles.textSubHeading(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  children: [
+                                    const WidgetSpan(
+                                      alignment:
+                                          PlaceholderAlignment.middle,
+                                      child: CustomGradientText(
+                                        text: 'Cryptocurrency ',
+                                        style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                      )
-                                    else if (_subtitles[index] ==
-                                        'Digital Assets')
-                                      CustomGradientText(
-                                        text: _subtitles[index],
-                                        style: const TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    else
-                                      CustomText(
-                                        text: _subtitles[index],
-                                        style: CustomTextStyles.textSubHeading(
-                                          fontWeight: FontWeight.bold,
-                                        ),
                                       ),
-                                  const SizedBox(height: 8),
-                                  CustomText(
-                                    text: _descriptions[index],
-                                    style: CustomTextStyles.textCommon(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Center(
-                                    child: index == 3
-                                        ? Row(
-                                            children: [
-                                              Expanded(
-                                                child: CustomButton(
-                                                  text: 'Import',
-                                                  onPressed: () {},
-                                                  isGradient: false,
-                                                  backgroundColor:
-                                                      CustomColor.grey,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 10),
-                                                  textStyle: CustomTextStyles
-                                                      .textCommon(
-                                                          color: CustomColor
-                                                              .white),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 8),
-                                              Expanded(
-                                                child: CustomButton(
-                                                  text: 'Create New Wallet',
-                                                  onPressed: () async => {
-                                                    walletBloc.add(CreateWallet()),
-                                                    Navigator.of(
-                                                          context)
-                                                      .push(MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const CreatePasswordScreen()))
-                                                  },
-                                                  isGradient: true,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 12),
-                                                  textStyle: CustomTextStyles
-                                                      .textSubLabel(
-                                                          color: CustomColor
-                                                              .white),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : CustomButton(
-                                            text: 'Get Started',
-                                            onPressed: _nextPage,
-                                            isGradient: true,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 60, vertical: 10),
-                                            textStyle:
-                                                CustomTextStyles.textSubHeading(
-                                                    color: CustomColor.white),
-                                          ),
-                                  ),
-                                ],
+                                    ),
+                                    TextSpan(
+                                      text: 'is the',
+                                      style:
+                                          CustomTextStyles.textSubHeading(
+                                              color: Colors.black,
+                                              fontWeight:
+                                                  FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            else
+                              Text(
+                                _titles[index],
+                                style: CustomTextStyles.textSubHeading(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                            if (_subtitles[index].isNotEmpty)
+                              if (_titles[index] ==
+                                  'Cryptocurrency is the')
+                                Text(
+                                  _subtitles[index],
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              else if (_subtitles[index] ==
+                                  'Digital Assets')
+                                CustomGradientText(
+                                  text: _subtitles[index],
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              else
+                                CustomText(
+                                  text: _subtitles[index],
+                                  style: CustomTextStyles.textSubHeading(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                            const SizedBox(height: 8),
+                            CustomText(
+                              text: _descriptions[index],
+                              style: CustomTextStyles.textCommon(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Center(
+                              child: index == 3
+                                  ? Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomButton(
+                                            text: 'Import',
+                                            onPressed: () {},
+                                            isGradient: false,
+                                            backgroundColor:
+                                                CustomColor.grey,
+                                            padding: const EdgeInsets
+                                                .symmetric(
+                                                horizontal: 10,
+                                                vertical: 10),
+                                            textStyle: CustomTextStyles
+                                                .textCommon(
+                                                    color: CustomColor
+                                                        .white),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: CustomButton(
+                                            text: 'Create New Wallet',
+                                            onPressed: () async => {
+                                              walletBloc.add(CreateWallet()),
+                                              Navigator.of(
+                                                    context)
+                                                .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const CreatePasswordScreen()))
+                                            },
+                                            isGradient: true,
+                                            padding: const EdgeInsets
+                                                .symmetric(
+                                                horizontal: 8,
+                                                vertical: 12),
+                                            textStyle: CustomTextStyles
+                                                .textSubLabel(
+                                                    color: CustomColor
+                                                        .white),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : CustomButton(
+                                      text: 'Get Started',
+                                      onPressed: _nextPage,
+                                      isGradient: true,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 60, vertical: 10),
+                                      textStyle:
+                                          CustomTextStyles.textSubHeading(
+                                              color: CustomColor.white),
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),

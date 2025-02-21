@@ -76,6 +76,7 @@ class _HomeContentScreenState extends State<HomeContentScreen>
     super.build(context);
 
     return Scaffold(
+      
       body: IndexedStack(
         index: _selectedIndex,
         children: const [

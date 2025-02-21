@@ -3,8 +3,27 @@ import 'package:flutter_application_1/services/wallet/models/chain_metadata.dart
 class ChainData {
   static final List<ChainMetadata> mainChains = [
     ChainMetadata(
-      logo: "https://avatars.githubusercontent.com/u/66309068?s=200&v=4",
+      logo: "https://blockfit.io/wp-content/uploads/2024/10/bfit-coin-png-2-768x768.png",
       id: "1",
+      isDefault: true,
+      tokens: [
+        TokenMetaData(
+          contract: "0x8e37D05eBdf4966D0747448636665907Cd3AAC72",
+          name: "FIT24",
+          isNative: true,
+          symbol: "FIT24",
+          decimal: 18,
+        ),
+      ],
+      chainId: 'eip155:202424',
+      explorerUrl: "https://blockfitscan.io/",
+      symbol: "BFIT",
+      name: 'BlockFit Network',
+      rpc: 'https://rpc.blockfitscan.io/',
+    ),
+    ChainMetadata(
+      logo: "https://avatars.githubusercontent.com/u/66309068?s=200&v=4",
+      id: "10",
       isDefault: true,
       tokens: [
         TokenMetaData(
