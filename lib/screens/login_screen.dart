@@ -201,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: CustomText(
                             textAlign: TextAlign.center,
                             text:
-                                'Wallet wont unlock? You can reset your wallet',
+                                "Wallet won't unlock? You can reset your wallet",
                             style: CustomTextStyles.textSubHeading(
                               color: CustomColor.grey,
                             ),

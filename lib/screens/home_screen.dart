@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        print(walletBloc.selectedAccount!.address);
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80),

@@ -3,9 +3,35 @@ import 'package:flutter_application_1/services/wallet/models/chain_metadata.dart
 class ChainData {
   static final List<ChainMetadata> mainChains = [
     ChainMetadata(
-      logo: "https://avatars.githubusercontent.com/u/66309068?s=200&v=4",
+      logo: "https://blockfitscan.io/_next/image?url=https%3A%2F%2Ff005.backblazeb2.com%2Ffile%2Ftracehawk-prod%2Flogo%2FBlockFit%2FLight.png&w=256&q=75",
       id: "1",
       isDefault: true,
+      tokens: [
+        TokenMetaData(
+          contract: "0x0000000000000000000000000000000000001010",
+          name: "BlockFit",
+          isNative: true,
+          symbol: "BFIT",
+          decimal: 18,
+        ),
+        TokenMetaData(
+          contract: "0x0011E559da84dde3f841e22dc33F3adbF184D84A",
+          name: "WETH",
+          symbol: "WETH",
+          isNative: true,
+          decimal: 18,
+        )
+      ],
+      chainId: 'eip155:202424',
+      explorerUrl: "https://blockfitscan.io/",
+      symbol: "BFIT",
+      name: 'BlockFit',
+      rpc: 'https://rpc.blockfitscan.io/',
+    ),
+    ChainMetadata(
+      logo: "https://avatars.githubusercontent.com/u/66309068?s=200&v=4",
+      id: "2",
+      isDefault: false,
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000001010",
@@ -30,8 +56,8 @@ class ChainData {
     ),
     ChainMetadata(
         logo: "https://avatars.githubusercontent.com/u/6250754?s=200&v=4",
-        id: "2",
-        isDefault: true,
+        id: "3",
+        isDefault: false,
         tokens: [
           TokenMetaData(
             contract: "0x0000000000000000000000000000000000000000",
@@ -47,75 +73,10 @@ class ChainData {
         rpc: 'https://eth.drpc.org',
         explorerUrl: "https://etherscan.io/"),
     ChainMetadata(
-      explorerUrl: "https://arbiscan.io/",
-      logo: "https://avatars.githubusercontent.com/u/99078433?s=200&v=4",
-      id: "3",
-      isDefault: true,
-      tokens: [
-        TokenMetaData(
-          contract: "0xA9d23408b9bA935c230493c40C73824Df71A0975",
-          name: "Taiko Token",
-          isNative: true,
-          symbol: "TAIKO",
-          decimal: 18,
-        ),
-        TokenMetaData(
-          contract: "0xA51894664A773981C6C112C43ce576f315d5b1B6",
-          name: "WETH",
-          symbol: "weth",
-          isNative: false,
-          decimal: 18,
-        )
-      ],
-      chainId: 'eip155:167000',
-      symbol: "ETH",
-      name: 'Taiko Mainnet',
-      rpc: 'https://rpc.taiko.xyz',
-    ),
-    ChainMetadata(
-      explorerUrl: "https://arb1.arbitrum.io/rpc",
-      logo: "https://arbitrum.io/assets/arbitrum/logo_color.png",
-      id: "4",
-      isDefault: true,
-      tokens: [
-        TokenMetaData(
-          contract: "0x0000000000000000000000000000000000000000",
-          name: "Arbitrum",
-          isNative: true,
-          symbol: "ARB",
-          decimal: 18,
-        )
-      ],
-      symbol: "ARB",
-      chainId: 'eip155:42161',
-      name: 'Arbitrum',
-      rpc: 'https://arbitrum.blockpi.network/v1/rpc/public',
-    ),
-    ChainMetadata(
-      explorerUrl: "https://optimistic.etherscan.io/",
-      logo:
-          "https://cdn.prod.website-files.com/6503306c491d20f69e484470/6504447cca511cf62d89689a_image%20286.png",
-      id: "5",
-      isDefault: true,
-      tokens: [
-        TokenMetaData(
-          contract: "0x0000000000000000000000000000000000000000",
-          name: "Optimism",
-          isNative: true,
-          symbol: "OP",
-          decimal: 18,
-        )
-      ],
-      symbol: "OP",
-      chainId: 'eip155:10',
-      name: 'OP Mainnet',
-      rpc: 'https://mainnet.optimism.io/',
-    ),
-    ChainMetadata(
       explorerUrl: "https://bsc-dataseed.binance.org/",
       logo: "https://avatars.githubusercontent.com/u/45615063?s=200&v=4",
-      id: "6",
-      isDefault: true,
+      id: "4",
+      isDefault: false,
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000000000",
@@ -135,7 +96,7 @@ class ChainData {
   static final List<ChainMetadata> testChains = [
     ChainMetadata(
       logo: "",
-      id: "7",
+      id: "5",
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000000000",
@@ -153,7 +114,7 @@ class ChainData {
     ),
     ChainMetadata(
       logo: "",
-      id: "8",
+      id: "6",
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000000000",
@@ -171,7 +132,7 @@ class ChainData {
     ),
     ChainMetadata(
       logo: "",
-      id: "9",
+      id: "7",
       tokens: [
         TokenMetaData(
           contract: "0x0000000000000000000000000000000000000000",

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/login_screen.dart';
+import 'package:flutter_application_1/screens/home_screen.dart';
 
 import '../components/custom_appbar.dart';
 import '../components/custom_button.dart';
@@ -220,7 +220,7 @@ class _ConfirmRecoveryPhraseScreenState
                         onPressed: () {
                           if (isOrderCorrect) {
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => const LoginScreen())
+                              MaterialPageRoute(builder: (context) => const HomeScreen())
                             );
                           }
                         },
