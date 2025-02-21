@@ -95,7 +95,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   print("done");
                   _initializeWallet(state);
                 } else if (state is VerifyPinFailure) {
-                  print("fail");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Wrong password. Please try again.'),
+                      backgroundColor: CustomColor.red,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
                 }
               },
             ),
