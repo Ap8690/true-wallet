@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
 import 'package:flutter_application_1/components/custom_home_appbar.dart';
+import 'package:flutter_application_1/components/custom_send_text_field.dart';
 import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_field.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
@@ -116,12 +117,11 @@ class _SendScreenState extends State<SendScreen> {
                           child: TextField(
                             controller: _amountController,
                             focusNode: _amountFocusNode,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32
-                            ),
+                                fontWeight: FontWeight.bold, fontSize: 32),
                             decoration: const InputDecoration(
                               hintText: "0.00",
                               border: InputBorder.none,
@@ -135,15 +135,13 @@ class _SendScreenState extends State<SendScreen> {
                         ),
                         const SizedBox(width: 8),
                         SizedBox(
-                          
                           width: MediaQueryHelper.getWidth(context) * 0.3,
                           child: Text(
                             walletBloc.selectedToken.symbol,
                             style: const TextStyle(
-                              color: CustomColor.green,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32
-                            ),
+                                color: CustomColor.green,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32),
                           ),
                         ),
                       ],
@@ -172,7 +170,7 @@ class _SendScreenState extends State<SendScreen> {
               color: CustomColor.grey, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 10),
-        CustomTextField(
+        CustomSendTextField(
           prefixText: 'Account : ',
           controller: controller,
           isFullSize: true,

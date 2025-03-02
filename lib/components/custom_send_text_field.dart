@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import '../constants/custom_color.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomSendTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
   final String? iconPath;
@@ -25,7 +25,7 @@ class CustomTextField extends StatefulWidget {
   final InputDecoration? decoration;
   final String? prefixText;
 
-  const CustomTextField(
+  const CustomSendTextField(
       {Key? key,
       this.controller,
       this.hintText,
@@ -51,15 +51,15 @@ class CustomTextField extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<CustomSendTextField> createState() => _CustomSendTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomSendTextFieldState extends State<CustomSendTextField> {
   bool _isTextVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    double borderRadius = widget.isFullSize ? 8.0 : 24.0;
+    double borderRadius = 24;
 
     return Row(
       children: [
@@ -121,7 +121,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),
                     borderSide: BorderSide(
-                        color: widget.borderColour ?? Colors.green, width: 2),
+                        color: widget.borderColour ?? Colors.green, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),

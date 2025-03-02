@@ -4,7 +4,7 @@ class ChainData {
   static final List<ChainMetadata> mainChains = [
     ChainMetadata(
       logo:
-          "https://blockfitscan.io/_next/image?url=https%3A%2F%2Ff005.backblazeb2.com%2Ffile%2Ftracehawk-prod%2Flogo%2FBlockFit%2FLight.png&w=256&q=75",
+          "https://blockfit.io/wp-content/uploads/2024/10/bfit-coin-png-2-768x768.png#fromHistory",
       id: "1",
       isDefault: true,
       tokens: [
@@ -130,24 +130,6 @@ class ChainData {
       name: 'Holesky',
       isTestnet: true,
       rpc: 'https://ethereum-holesky-rpc.publicnode.com',
-    ),
-    ChainMetadata(
-      logo: "",
-      id: "7",
-      tokens: [
-        TokenMetaData(
-          contract: "0x0000000000000000000000000000000000000000",
-          name: "Polygon",
-          isNative: true,
-          symbol: "MATIC",
-          decimal: 18,
-        )
-      ],
-      symbol: "ETH",
-      chainId: 'eip155:80001',
-      name: 'Polygon Mumbai',
-      isTestnet: true,
-      rpc: 'https://matic-mumbai.chainstacklabs.com',
     ),
   ];
 
