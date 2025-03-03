@@ -59,7 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    double borderRadius = widget.isFullSize ? 8.0 : 24.0;
+    double borderRadius = 24;
 
     return Row(
       children: [
@@ -121,7 +121,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),
                     borderSide: BorderSide(
-                        color: widget.borderColour ?? Colors.green, width: 2),
+                        color: widget.borderColour ?? Colors.green, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),
