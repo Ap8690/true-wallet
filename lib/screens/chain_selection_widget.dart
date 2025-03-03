@@ -37,68 +37,31 @@ class _ChainSelectionWidgetState extends State<ChainSelectionWidget> {
               return const SelectChain();
             }));
           },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  walletBloc.selectedChain.logo == "" ||
-                          walletBloc.selectedChain.logo == null
-                      ? Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: CustomColor.blue,
-                          ),
-                          child: const Icon(
-                            Icons.link,
-                            size: 15,
-                            color: Colors.white,
-                          ))
-                      : walletBloc.selectedChain.logo!.endsWith(".svg")
-                          ? CircleAvatar(
-                              backgroundColor: Colors.grey[100],
-                              radius: 15,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: SvgPicture.network(
-                                  walletBloc.selectedChain.logo!,
-                                  height: 30,
-                                  width: 30,
-                                  placeholderBuilder: (context) => Icon(
-                                    Icons.image_not_supported,
-                                    size: 15,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundColor: Colors.grey[100],
-                              radius: 15,
-                              backgroundImage:
-                                  NetworkImage(walletBloc.selectedChain.logo!),
-                            ),
-                  const SizedBox(
-                    width: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: CustomColor.blue,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  walletBloc.selectedChain.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    walletBloc.selectedChain.name.substring(0, 3),
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: CustomColor.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_down,
-                    color: CustomColor.black,
-                    size: 28,
-                  )
-                ],
-              )
-            ],
+                ),
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.white,
+                  size: 20,
+                )
+              ],
+            ),
           ),
         );
       },
