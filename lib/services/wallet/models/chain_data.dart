@@ -96,7 +96,8 @@ class ChainData {
 
   static final List<ChainMetadata> testChains = [
     ChainMetadata(
-      logo: "",
+      explorerUrl: "https://sepolia.etherscan.io/",
+      logo: "https://avatars.githubusercontent.com/u/6250754?s=200&v=4",
       id: "5",
       tokens: [
         TokenMetaData(
@@ -114,7 +115,8 @@ class ChainData {
       rpc: 'https://ethereum-sepolia.publicnode.com',
     ),
     ChainMetadata(
-      logo: "",
+      explorerUrl: "https://holesky.etherscan.io/",
+      logo: "https://avatars.githubusercontent.com/u/6250754?s=200&v=4",
       id: "6",
       tokens: [
         TokenMetaData(
@@ -129,7 +131,7 @@ class ChainData {
       chainId: 'eip155:17000',
       name: 'Holesky',
       isTestnet: true,
-      rpc: 'https://ethereum-holesky-rpc.publicnode.com',
+      rpc: 'https://1rpc.io/holesky',
     ),
   ];
 
