@@ -23,32 +23,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late WalletBloc walletBloc;
-  late Timer _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     walletBloc = BlocProvider.of(context);
     walletBloc.add(const GetBalance());
-
-    _refreshTimer = Timer.periodic(const Duration(seconds: 30), (_) {
-      if (mounted) {
-        walletBloc.add(const GetBalance());
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _refreshTimer.cancel();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: CustomHomeAppbar(
+          showBackWidget: true,
+          showTrailingWidget: true,
+          onTrailingTap: () {},
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
