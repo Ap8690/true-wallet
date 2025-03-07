@@ -34,6 +34,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   SecureStorageService storageService = GetIt.I<SecureStorageService>();
 
+  Timer? _balanceTimer;
+
   WalletBloc(this.service) : super(WalletInitial()) {
     on<WalletEvent>((event, emit) {});
 
@@ -46,45 +48,45 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     });
 
     on<GetBalance>((event, emit) async {
-      emit(const GetBalanceLoading());
-
-      if (wallet == null || selectedAccount == null) {
-        return emit(const GetBalanceFail("Wallet or account not initialized"));
+      if (state is! GetBalanceLoading) {
+        emit(const GetBalanceLoading());
       }
 
       try {
-        final response = await service.getCoinBalance(
-            selectedChain.rpc, selectedAccount!.address);
+        final address = selectedAccount?.address;
+        if (address == null) return;
 
-        response.fold((error) => emit(GetBalanceFail(error.message)),
-            (balance) {
-          final double amount = Helpers.fixDecimalPlaces(
-              double.parse(balance.getInWei.toString()) /
-                  pow(10, selectedToken.decimal));
+        final response =
+            await service.getCoinBalance(selectedChain.rpc, address);
+
+        await response.fold((error) async {
+          if (!error.message.contains("Balance fetch failed")) {
+            emit(GetBalanceFail(error.message));
+          }
+        }, (balance) async {
+          final rawWei = balance.getInWei;
+          final decimals = selectedToken.decimal;
+
+          final double weiValue =
+              rawWei.toString().isEmpty ? 0.0 : double.parse(rawWei.toString());
+
+          final double amount =
+              Helpers.fixDecimalPlaces(weiValue / pow(10, decimals));
 
           selectedToken.balance = amount;
           if (selectedToken.isNative) {
             selectedAccount!.balance = amount;
           }
 
+          await storageService.saveWithPin(
+              'walletMeta', jsonEncode(wallet?.toJson()));
+
           emit(const GetBalanceSuccess());
         });
-
-        if (!selectedToken.isNative) {
-          final tokenResponse = await service.getTokenBalance(selectedChain.rpc,
-              selectedAccount!.address, selectedToken.contract);
-
-          tokenResponse.fold((error) => emit(GetBalanceFail(error.message)),
-              (balance) {
-            final double amount = Helpers.fixDecimalPlaces(
-                double.parse(balance.getInWei.toString()) /
-                    pow(10, selectedToken.decimal));
-            selectedToken.balance = amount;
-            emit(const GetBalanceSuccess());
-          });
-        }
       } catch (e) {
-        emit(GetBalanceFail(e.toString()));
+        if (!e.toString().contains("empty data")) {
+          emit(GetBalanceFail(e.toString()));
+        }
       }
     });
 
@@ -261,10 +263,15 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   }
 
   void startPeriodicBalanceCheck() {
-    Timer.periodic(const Duration(seconds: 30), (timer) {
-      if (state is! GetBalanceLoading) {
-        add(const GetBalance());
-      }
+    _balanceTimer?.cancel();
+    _balanceTimer = Timer.periodic(const Duration(seconds: 15), (_) {
+      add(const GetBalance());
     });
+  }
+
+  @override
+  Future<void> close() {
+    _balanceTimer?.cancel();
+    return super.close();
   }
 }

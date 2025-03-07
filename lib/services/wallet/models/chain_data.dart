@@ -1,4 +1,6 @@
 import 'package:flutter_application_1/services/wallet/models/chain_metadata.dart';
+import 'package:http/http.dart';
+import 'package:web3dart/web3dart.dart';
 
 class ChainData {
   static final List<ChainMetadata> mainChains = [
@@ -136,4 +138,44 @@ class ChainData {
   ];
 
   static final List<ChainMetadata> allChains = [...mainChains, ...testChains];
+
+  // Add fallback RPCs for your chain
+  static final List<String> blockfitRPCs = [
+    "https://rpc.blockfitscan.io/",
+    "https://rpc-backup.blockfitscan.io/", // Add your backup RPC
+  ];
+
+  Future<String> getWorkingRPC() async {
+    for (String rpc in blockfitRPCs) {
+      try {
+        final client = Web3Client(rpc, Client());
+        await client.getNetworkId();
+        await client.dispose();
+        return rpc;
+      } catch (e) {
+        print("RPC $rpc failed: $e");
+        continue;
+      }
+    }
+    throw Exception("No working RPC found");
+  }
+
+  Future<bool> verifyRPC(String rpc) async {
+    try {
+      final client = Web3Client(rpc, Client());
+      try {
+        final chainId = await client.getChainId();
+        print("RPC verification successful for $rpc - Chain ID: $chainId");
+        await client.dispose();
+        return true;
+      } catch (e) {
+        print("RPC verification failed for $rpc: $e");
+        await client.dispose();
+        return false;
+      }
+    } catch (e) {
+      print("Critical error verifying RPC $rpc: $e");
+      return false;
+    }
+  }
 }

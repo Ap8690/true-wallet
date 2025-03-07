@@ -19,12 +19,16 @@ class TransferScreen extends StatefulWidget {
 }
 
 class _TransferScreenState extends State<TransferScreen> {
-  WalletBloc? _walletBloc;
+  late final WalletBloc _walletBloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _walletBloc = context.read<WalletBloc>();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _walletBloc = BlocProvider.of<WalletBloc>(context);
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
@@ -34,100 +38,111 @@ class _TransferScreenState extends State<TransferScreen> {
           onTrailingTap: () {},
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<WalletBloc>().add(const GetBalance());
+          return Future.delayed(const Duration(milliseconds: 800));
+        },
+        child: ListView(
           children: [
-            Center(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CustomText(
-                    text: "Your Balance",
-                    style: CustomTextStyles.textTitle(),
-                  ),
-                  const SizedBox(height: 10),
-                  BlocBuilder<WalletBloc, WalletState>(
-                    builder: (context, state) {
-                      final token = _walletBloc?.selectedToken;
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomText(
+                          text: "Your Balance",
+                          style: CustomTextStyles.textTitle(),
+                        ),
+                        const SizedBox(height: 10),
+                        BlocBuilder<WalletBloc, WalletState>(
+                          buildWhen: (previous, current) =>
+                              current is GetBalanceSuccess ||
+                              current is GetBalanceLoading,
+                          builder: (context, state) {
+                            final token = _walletBloc.selectedToken;
 
-                      if (state is GetBalanceLoading) {
-                        return const CircularProgressIndicator();
-                      }
+                            if (state is GetBalanceLoading) {
+                              return const CircularProgressIndicator();
+                            }
 
-                      if (token == null) {
-                        return CustomText(
-                          text: "Wallet not initialized",
-                          style: TextStyle(color: CustomColor.red),
-                        );
-                      }
+                            if (token == null) {
+                              return CustomText(
+                                text: "Wallet not initialized",
+                                style: TextStyle(color: CustomColor.red),
+                              );
+                            }
 
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomText(
-                                text: token.balance.toStringAsFixed(6),
-                                style: CustomTextStyles.textHeading(),
-                              ),
-                              const SizedBox(width: 8),
-                              CustomText(
-                                text: token.symbol,
-                                style: CustomTextStyles.textHeading(
-                                  color: CustomColor.green,
+                            return Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomText(
+                                      text: token.balance.toStringAsFixed(6),
+                                      style: CustomTextStyles.textHeading(),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    CustomText(
+                                      text: token.symbol,
+                                      style: CustomTextStyles.textHeading(
+                                        color: CustomColor.green,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          if (state is GetBalanceFail)
-                            CustomText(
-                              text: state.message,
-                              style: CustomTextStyles.textLabel(
-                                color: CustomColor.red,
-                              ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  CustomText(
-                    text: '\$ ${_calculateUsdValue()}',
-                    style:
-                        CustomTextStyles.textHeading(color: CustomColor.green),
+                              ],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        CustomText(
+                          text: '\$ ${_calculateUsdValue()}',
+                          style: CustomTextStyles.textHeading(
+                              color: CustomColor.green),
+                        ),
+                        const SizedBox(height: 20),
+                        sendReceiveButtons(),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  sendReceiveButtons(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text:
+                            '${_walletBloc.selectedToken.symbol ?? ""} Activity',
+                        style: CustomTextStyles.textTitle(),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.47,
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return _buildFitActivityTile(
+                              ImagePath.debitIcon,
+                              _walletBloc.selectedToken.symbol ?? "",
+                              _walletBloc.selectedToken.balance
+                                      .toStringAsFixed(2) ??
+                                  "0.00",
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: '${_walletBloc?.selectedToken.symbol ?? ""} Activity',
-                  style: CustomTextStyles.textTitle(),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.47,
-                  child: ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return _buildFitActivityTile(
-                        ImagePath.debitIcon,
-                        _walletBloc?.selectedToken.symbol ?? "",
-                        _walletBloc?.selectedToken.balance.toStringAsFixed(2) ??
-                            "0.00",
-                      );
-                    },
-                  ),
-                )
-              ],
-            )
           ],
         ),
       ),
@@ -135,8 +150,8 @@ class _TransferScreenState extends State<TransferScreen> {
   }
 
   String _calculateUsdValue() {
-    if (_walletBloc == null) return "0.00";
-    return (_walletBloc!.selectedToken.balance * 1).toStringAsFixed(2);
+    if (_walletBloc.selectedToken == null) return "0.00";
+    return (_walletBloc.selectedToken!.balance * 1).toStringAsFixed(2);
   }
 
   Widget _buildFitActivityTile(
@@ -235,15 +250,5 @@ class _TransferScreenState extends State<TransferScreen> {
         ),
       ],
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _walletBloc?.add(const GetBalance());
-      }
-    });
   }
 }

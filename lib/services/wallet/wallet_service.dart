@@ -20,10 +20,32 @@ class WalletService {
   late MyHttpClient myHttpClient;
   late WalletConnectService web3walletService;
 
+  static final List<String> blockfitRPCs = [
+    "https://rpc.blockfitscan.io/",
+    "https://rpc-backup.blockfitscan.io/",
+  ];
+
   WalletService() {
     myHttpClient = getIt<MyHttpClient>();
     web3walletService = getIt<WalletConnectService>();
     keyService = getIt<KeyService>();
+  }
+
+  Future<String> getWorkingRPC() async {
+    for (String rpc in blockfitRPCs) {
+      try {
+        final client = Web3Client(rpc, Client());
+        await client.getNetworkId();
+        await client.dispose();
+        print("Found working RPC: $rpc");
+        return rpc;
+      } catch (e) {
+        print("RPC $rpc failed: $e");
+        continue;
+      }
+    }
+
+    return blockfitRPCs.first;
   }
 
   Future<Either<AppException, CryptoWallet>> createWallet() async {
@@ -46,43 +68,58 @@ class WalletService {
   }
 
   Future<Either<AppException, EtherAmount>> getTokenBalance(
-      String rpc, String add, String contractAddress) async {
+      String rpc, String address, String contractAddress) async {
     try {
-      final address = EthereumAddress.fromHex(add);
-      String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
-
-      final contract = DeployedContract(
-          ContractAbi.fromJson(abiCode, 'Erc20Token'),
-          EthereumAddress.fromHex(contractAddress));
+      print("Getting token balance from RPC: $rpc");
+      print("For address: $address");
+      print("Contract address: $contractAddress");
 
       final client = Web3Client(rpc, Client());
+      final ethAddress = EthereumAddress.fromHex(address);
+      final contract = EthereumAddress.fromHex(contractAddress);
 
-      final balance = await client.call(
-          contract: contract,
-          function: contract.function('balanceOf'),
-          params: [address]);
+      String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
+      final contractAbi = ContractAbi.fromJson(abiCode, 'Erc20Token');
+      final tokenContract = DeployedContract(contractAbi, contract);
 
-      debugPrint(balance.toString());
+      final balanceFunction = tokenContract.function('balanceOf');
+      final result = await client.call(
+        contract: tokenContract,
+        function: balanceFunction,
+        params: [ethAddress],
+      );
 
-      return right(EtherAmount.fromBigInt(EtherUnit.wei, balance.first));
+      print("Token balance result: ${result[0]}");
+      final balance = EtherAmount.fromBigInt(EtherUnit.wei, result[0]);
+
+      await client.dispose();
+      return right(balance);
     } catch (e) {
+      print("Error in getTokenBalance: $e");
       return left(WalletException(message: e.toString()));
     }
   }
 
   Future<Either<AppException, EtherAmount>> getCoinBalance(
-      String rpc, String add) async {
+      String rpc, String address) async {
     try {
-      final address = EthereumAddress.fromHex(add);
-
       final client = Web3Client(rpc, Client());
+      final ethAddress = EthereumAddress.fromHex(address);
 
-      final balance = await client.getBalance(address);
+      try {
+        final balance = await client.getBalance(ethAddress);
+        print("Balance (Wei): ${balance.getInWei}");
+        print("Balance (Ether): ${balance.getValueInUnit(EtherUnit.ether)}");
 
-      debugPrint(balance.toString());
-
-      return right(balance);
+        await client.dispose();
+        return right(balance);
+      } catch (e) {
+        print("Balance fetch error: $e");
+        await client.dispose();
+        return left(WalletException(message: "Balance fetch failed"));
+      }
     } catch (e) {
+      print("getCoinBalance critical error: $e");
       return left(WalletException(message: e.toString()));
     }
   }
@@ -195,6 +232,96 @@ class WalletService {
       return left(WalletException(message: e.toString()));
     }
   }
+
+  Future<bool> isTransactionConfirmed(String txHash, String rpc) async {
+    try {
+      final client = Web3Client(rpc, Client());
+      final receipt = await client.getTransactionReceipt(txHash);
+      await client.dispose();
+
+      if (receipt == null) {
+        print("Transaction not yet confirmed: $txHash");
+        return false;
+      }
+
+      print("Transaction confirmed: $txHash");
+      print("Block number: ${receipt.blockNumber}");
+      return true;
+    } catch (e) {
+      print("Error checking transaction: $e");
+      return false;
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyTransaction(
+      String txHash, String rpc) async {
+    try {
+      final client = Web3Client(rpc, Client());
+
+      final tx = await client.getTransactionByHash(txHash);
+      if (tx == null) {
+        return {'status': 'not_found', 'message': 'Transaction not found'};
+      }
+
+      final receipt = await client.getTransactionReceipt(txHash);
+
+      await client.dispose();
+
+      if (receipt == null) {
+        return {'status': 'pending', 'message': 'Transaction pending'};
+      }
+
+      return {
+        'status': receipt.status ?? false ? 'success' : 'failed',
+        'blockNumber': receipt.blockNumber.toString(),
+        'gasUsed': receipt.gasUsed.toString(),
+        'confirmations': true,
+      };
+    } catch (e) {
+      print("Transaction verification error: $e");
+      return {'status': 'error', 'message': e.toString()};
+    }
+  }
+
+  Future<bool> hasTransactions(String address, String rpc) async {
+    try {
+      final client = Web3Client(rpc, Client());
+      final ethAddress = EthereumAddress.fromHex(address);
+      final txCount = await client.getTransactionCount(ethAddress);
+      await client.dispose();
+
+      print("Transaction count for $address: $txCount");
+
+      return txCount.toInt() > 0;
+    } catch (e) {
+      print("Transaction check error: $e");
+      return false;
+    }
+  }
+
+  Future<int> getTokenDecimals(String contractAddress, String rpc) async {
+    try {
+      final client = Web3Client(rpc, Client());
+      final contract = EthereumAddress.fromHex(contractAddress);
+
+      String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
+      final contractAbi = ContractAbi.fromJson(abiCode, 'Erc20Token');
+      final tokenContract = DeployedContract(contractAbi, contract);
+
+      final decimalsFunction = tokenContract.function('decimals');
+      final result = await client.call(
+        contract: tokenContract,
+        function: decimalsFunction,
+        params: [],
+      );
+
+      await client.dispose();
+      return (result.first as BigInt).toInt();
+    } catch (e) {
+      print("Error getting token decimals: $e");
+      return 18;
+    }
+  }
 }
 
 class IsolateService<T> {
@@ -233,13 +360,10 @@ class IsolateService<T> {
     Function function = message['function'];
 
     try {
-      // Execute the function in the isolate
       dynamic result = function();
 
-      // Send the result back to the main isolate
       sendPort.send(result);
     } catch (e) {
-      // Send error back to main isolate
       errorPort.send(e.toString());
     }
   }
