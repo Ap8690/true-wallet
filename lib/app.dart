@@ -20,43 +20,46 @@ import "utils/injection_container.dart" as di;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  static GetIt getIt = GetIt.I;
-  static PreferenceService preferenceService = getIt<PreferenceService>();
+
+  static final GetIt getIt = GetIt.I;
+  static final PreferenceService _preferenceService =
+      getIt<PreferenceService>();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (BuildContext context) => WalletBloc(
-              di.sl(),
-            ),
+      providers: [
+        BlocProvider(
+          create: (context) => WalletBloc(
+            di.sl(),
           ),
-          BlocProvider(
-            create: (BuildContext context) => AuthBloc(
-              di.sl(),
-              di.sl(),
-            ),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => AuthBloc(
+            di.sl(),
+            di.sl(),
           ),
-          BlocProvider(
-              create: (BuildContext context) => SendBloc(
-                    di.sl(),
-                    BlocProvider.of<WalletBloc>(context),
-                  )),
-          BlocProvider(
-            create: (BuildContext context) => NetworksBloc(di.sl(), di.sl()),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => SendBloc(
+            di.sl(),
+            BlocProvider.of<WalletBloc>(context),
           ),
-        ],
-        child: MaterialApp(
-          title: 'TrueWallet',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              colorScheme:
-                  const ColorScheme.light(onPrimary: CustomColor.white)),
-          home: preferenceService.isLoggedIn
-              ? const LoginScreen()
-              : OnboardingScreen(),
-        ));
+        ),
+        BlocProvider(
+          create: (BuildContext context) => NetworksBloc(di.sl(), di.sl()),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'TrueWallet',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            colorScheme: const ColorScheme.light(onPrimary: CustomColor.white)),
+        home: _preferenceService.isLoggedIn
+            ? const LoginScreen()
+            : OnboardingScreen(),
+      ),
+    );
   }
 }
 
@@ -85,7 +88,6 @@ class _HomeContentScreenState extends State<HomeContentScreen>
     super.build(context);
 
     return Scaffold(
-      
       body: IndexedStack(
         index: _selectedIndex,
         children: const [

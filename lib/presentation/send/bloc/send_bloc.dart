@@ -14,7 +14,8 @@ class SendBloc extends Bloc<SendEvent, SendState> {
   final WalletBloc walletBloc;
   SendBloc(
     this.sendService,
-    this.walletBloc,) : super(SendInitial()) {
+    this.walletBloc,
+  ) : super(SendInitial()) {
     on<GetGasFee>(_onGetGasFee);
     on<SendTransaction>(_onSendTransaction);
     on<GetTransactionReceipt>(_onGetTransactionReceipt);
@@ -48,7 +49,10 @@ class SendBloc extends Bloc<SendEvent, SendState> {
         isNative: event.isNative);
     response.fold(
       (l) => emit(SendTransactionFails(message: l.message)),
-      (r) => emit(SendTransactionSuccess(hash: r)),
+      (r) {
+        walletBloc.add(const GetBalance());
+        emit(SendTransactionSuccess(hash: r));
+      },
     );
   }
 
@@ -63,4 +67,3 @@ class SendBloc extends Bloc<SendEvent, SendState> {
     );
   }
 }
-

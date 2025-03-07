@@ -1,18 +1,14 @@
 import 'dart:convert';
 import 'dart:math';
-
-import 'package:flutter_application_1/core/exceptions/exceptions.dart';
+import 'dart:async';
 import 'package:flutter_application_1/services/wallet/models/chain_data.dart';
 import 'package:flutter_application_1/services/wallet/models/chain_metadata.dart';
 import 'package:flutter_application_1/services/wallet/models/wallet_model.dart';
 import 'package:flutter_application_1/services/wallet/wallet_service.dart';
 import 'package:flutter_application_1/utils/helpers.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:web3dart/web3dart.dart';
-
 import 'package:flutter_application_1/services/secure_storage_service/secure_storage_service.dart';
 
 part 'wallet_event.dart';
@@ -51,26 +47,45 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
     on<GetBalance>((event, emit) async {
       emit(const GetBalanceLoading());
-      if (wallet?.accounts.isEmpty ?? false) {
-        return emit(const AddAccountFail("Wallet Not found"));
-      }
-      late final Either<AppException, EtherAmount> response;
 
-      response = await service.getCoinBalance(
-          selectedChain.rpc, selectedAccount?.address ?? "");
-      response.fold((l) {
-        emit(GetBalanceFail(l.message));
-      }, (r) {
-        print(selectedToken.name);
-        final double balance = Helpers.fixDecimalPlaces(
-            double.parse(r.getInWei.toString()) /
-                pow(10, selectedToken.decimal));
-        selectedToken.balance = balance;
-        if (selectedToken.isNative) {
-          selectedAccount?.balance = balance;
+      if (wallet == null || selectedAccount == null) {
+        return emit(const GetBalanceFail("Wallet or account not initialized"));
+      }
+
+      try {
+        final response = await service.getCoinBalance(
+            selectedChain.rpc, selectedAccount!.address);
+
+        response.fold((error) => emit(GetBalanceFail(error.message)),
+            (balance) {
+          final double amount = Helpers.fixDecimalPlaces(
+              double.parse(balance.getInWei.toString()) /
+                  pow(10, selectedToken.decimal));
+
+          selectedToken.balance = amount;
+          if (selectedToken.isNative) {
+            selectedAccount!.balance = amount;
+          }
+
+          emit(const GetBalanceSuccess());
+        });
+
+        if (!selectedToken.isNative) {
+          final tokenResponse = await service.getTokenBalance(selectedChain.rpc,
+              selectedAccount!.address, selectedToken.contract);
+
+          tokenResponse.fold((error) => emit(GetBalanceFail(error.message)),
+              (balance) {
+            final double amount = Helpers.fixDecimalPlaces(
+                double.parse(balance.getInWei.toString()) /
+                    pow(10, selectedToken.decimal));
+            selectedToken.balance = amount;
+            emit(const GetBalanceSuccess());
+          });
         }
-        emit(const GetBalanceSuccess());
-      });
+      } catch (e) {
+        emit(GetBalanceFail(e.toString()));
+      }
     });
 
     on<InitializeWallet>((event, emit) async {
@@ -79,6 +94,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       selectedAccount = wallet?.accounts.first;
       selectedChain =
           chains.isNotEmpty ? chains.first : ChainData.allChains.first;
+
+      startPeriodicBalanceCheck();
+
+      add(const GetBalance());
+
       emit(InitializeWalletSuccess());
     });
 
@@ -238,5 +258,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   Future<CryptoAccount?> getAccountFromPrivateKey(String privateKey) async {
     final response = await service.importAccount(privateKey);
     return response.fold((l) => null, (r) => r);
+  }
+
+  void startPeriodicBalanceCheck() {
+    Timer.periodic(const Duration(seconds: 30), (timer) {
+      if (state is! GetBalanceLoading) {
+        add(const GetBalance());
+      }
+    });
   }
 }

@@ -10,12 +10,14 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../presentation/wallet/bloc/wallet_bloc.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   final secureStorage = const FlutterSecureStorage();
-  
+
   sl.registerLazySingleton<PreferenceService>(
       () => PreferenceService(preferences));
   sl.registerLazySingleton<MyHttpClient>(() => HttpClientImpl());
@@ -23,9 +25,10 @@ Future<void> init() async {
   sl.registerLazySingleton<WalletService>(() => WalletService());
   sl.registerLazySingleton<KeyService>(() => KeyService());
   sl.registerLazySingleton<SecureStorageService>(
-    () => SecureStorageService(secureStorage)
-  );
+      () => SecureStorageService(secureStorage));
   sl.registerLazySingleton<WalletConnectService>(() => WalletConnectService());
   sl.registerLazySingleton<NetworksService>(() => NetworksService());
   sl.registerLazySingleton<SendService>(() => SendService());
+
+  sl.registerLazySingleton(() => WalletBloc(sl()));
 }

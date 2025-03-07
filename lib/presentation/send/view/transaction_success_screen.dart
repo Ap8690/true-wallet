@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/app.dart';
 import 'package:flutter_application_1/components/custom_button.dart';
-import 'package:flutter_application_1/components/custom_home_appbar.dart';
 import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
-import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/utils/helpers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
 
 class TransactionSuccessScreen extends StatelessWidget {
   final String transactionHash;
@@ -80,8 +80,9 @@ class TransactionSuccessScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => const HomeContentScreen(),
                   ),
-                  (route) => false,  // This removes all previous routes
+                  (route) => false,
                 );
+                BlocProvider.of<WalletBloc>(context).add(const GetBalance());
               },
               isGradient: true,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),

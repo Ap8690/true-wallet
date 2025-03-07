@@ -35,6 +35,7 @@ class _SendScreenState extends State<SendScreen> {
   void initState() {
     super.initState();
     walletBloc = BlocProvider.of<WalletBloc>(context);
+    walletBloc.add(const GetBalance());
     _senderAccountController.text = walletBloc.selectedAccount?.address ?? '';
   }
 
@@ -66,33 +67,48 @@ class _SendScreenState extends State<SendScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              Center(
-                child: CustomText(
-                  text: "Your Balance",
-                  style: CustomTextStyles.textTitle(),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    text: "${walletBloc.selectedAccount?.balance ?? 0}",
-                    style: CustomTextStyles.textHeading(
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    height: 30,
-                    alignment: Alignment.center,
-                    child: CustomText(
-                      text: walletBloc.selectedToken.symbol,
-                      style: CustomTextStyles.textHeading(
-                          color: CustomColor.blue, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
+              BlocBuilder<WalletBloc, WalletState>(
+                builder: (context, state) {
+                  final balance = walletBloc.selectedToken.balance;
+                  final symbol = walletBloc.selectedToken.symbol;
+
+                  return Column(
+                    children: [
+                      Center(
+                        child: CustomText(
+                          text: "Your Balance",
+                          style: CustomTextStyles.textTitle(),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      state is GetBalanceLoading
+                          ? const CircularProgressIndicator()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomText(
+                                  text: balance.toStringAsFixed(6),
+                                  style: CustomTextStyles.textHeading(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Container(
+                                  height: 30,
+                                  alignment: Alignment.center,
+                                  child: CustomText(
+                                    text: symbol,
+                                    style: CustomTextStyles.textHeading(
+                                      color: CustomColor.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 30),
               _accountField('From', _senderAccountController, _senderFocusNode,
