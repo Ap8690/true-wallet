@@ -72,27 +72,24 @@ class _SendScreenState extends State<SendScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    text: "${walletBloc.selectedAccount?.balance ?? 0}",
-                    style: CustomTextStyles.textHeading(
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    height: 30,
-                    alignment: Alignment.center,
-                    child: CustomText(
-                      text: walletBloc.selectedToken.symbol,
-                      style: CustomTextStyles.textHeading(
-                          color: CustomColor.blue, fontWeight: FontWeight.bold),
+              Column(
+                      children: [
+                        CustomText(
+                          text:
+                              "${walletBloc.selectedAccount?.balance.toStringAsFixed(2) ?? 0} ${walletBloc.selectedToken.symbol}",
+                          style: CustomTextStyles.textSubTitle(),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CustomText(
+                          text: '+\$5 (+3.14%)',
+                          style: CustomTextStyles.textLabel(
+                              color: CustomColor.grey,
+                              fontWeight: FontWeight.normal),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
               const SizedBox(height: 30),
               _accountField('From', _senderAccountController, _senderFocusNode,
                   _receiverFocusNode),

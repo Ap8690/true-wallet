@@ -4,6 +4,8 @@ import 'package:flutter_application_1/components/custom_text.dart';
 import 'package:flutter_application_1/components/custom_text_styles.dart';
 import 'package:flutter_application_1/constants/custom_color.dart';
 import 'package:flutter_application_1/constants/image_path.dart';
+import 'package:flutter_application_1/presentation/wallet/bloc/wallet_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../components/custom_button.dart';
 import '../../receive/view/receive_screen.dart';
@@ -17,91 +19,93 @@ class TransferScreen extends StatefulWidget {
 }
 
 class _TransferScreenState extends State<TransferScreen> {
+  late WalletBloc walletBloc;
+
+  @override
+  void initState() {
+    walletBloc = BlocProvider.of(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
-          child: CustomHomeAppbar(
-            showBackWidget: true,
-            showTrailingWidget: true,
-            onTrailingTap: () {},
-          )),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomText(
-                    text: "Your Balance",
-                    style: CustomTextStyles.textTitle(),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(80),
+              child: CustomHomeAppbar(
+                showBackWidget: true,
+                showTrailingWidget: true,
+                onTrailingTap: () {},
+              )),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        text: "827.97",
+                        text: "Your Balance",
+                        style: CustomTextStyles.textTitle(),
                       ),
                       const SizedBox(
-                        width: 10,
+                        height: 10,
                       ),
-                      Container(
-                        height: 30,
-                        alignment: Alignment.center,
-                        child: CustomText(
-                          text: 'Fit24',
-                          // '${selectedcurrency['emoji']}${selectedCurrency['currency-code']!}',
-                        ),
-                      )
+                      Column(
+                        children: [
+                          CustomText(
+                            text:
+                                "${walletBloc.selectedAccount?.balance.toStringAsFixed(2) ?? 0} ${walletBloc.selectedToken.symbol}",
+                            style: CustomTextStyles.textSubTitle(),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CustomText(
+                            text: '+\$5 (+3.14%)',
+                            style: CustomTextStyles.textLabel(
+                                color: CustomColor.grey,
+                                fontWeight: FontWeight.normal),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      sendReceiveButtons(),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomText(
-                    text: '\$ 56.37',
-                    style:
-                        CustomTextStyles.textHeading(color: CustomColor.green),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  sendReceiveButtons(),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                    text: 'Fit24 Activity',
-                    style: CustomTextStyles.textTitle()),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.47,
-                  child: ListView.builder(itemBuilder: (context, index) {
-                    return _buildFitActivityTile(
-                        ImagePath.debitIcon, 'Fit24', '25');
-                  }),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                        text: 'Fit24 Activity',
+                        style: CustomTextStyles.textTitle()),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.47,
+                      child: ListView.builder(itemBuilder: (context, index) {
+                        return _buildFitActivityTile(
+                            ImagePath.debitIcon, 'Fit24', '25');
+                      }),
+                    )
+                  ],
                 )
               ],
-            )
-          ],
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 
